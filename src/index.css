@@ -1,0 +1,137 @@
+html, 
+body {
+    height: 100%;
+}
+
+html, body, #root, #root>div {
+    height: 100%;
+    margin: 0;
+}
+
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+.bottom {    
+    position: absolute;
+    bottom: 0;
+}
+.full {
+    height: 100%;
+    width: 100%;
+}
+.content{
+    margin: 0 auto;
+    max-width: 1600px;
+    height: calc(100% - 139px);
+}
+
+.header {
+    padding: 0 20px 0 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, .7fr);
+
+    color: white;
+    background-color: rgb(39, 43, 51);
+}
+.header-content {
+    grid-row: 2 / 3;
+}
+.login-box {
+    background-color: aqua;
+}
+
+.side-menu {
+    height: 100%;
+    width: 280px;
+}
+
+
+.main-container {
+    width: calc(100% - 280px);
+    height: 100%;
+}
+.main {
+    margin: 10px;
+    background-color: antiquewhite;
+    height: calc(100% - 20px);
+}
+.main-title {
+    height: 36px;
+    text-align: center;
+    vertical-align: bottom;
+    background-color: chartreuse;
+    
+}
+.main-content {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    background-color: cornflowerblue;
+
+    position: relative;
+}
+.main-diff {
+    height: calc(100% - 60px);
+    width: 100%;
+}
+
+
+.card {
+    margin: 10px;
+    width: 300px;
+    height: 350px;
+    background-color: crimson;
+}
+.card-title {
+    padding: 10px;
+    font-size: 15px;
+    text-align: center;
+    background-color: tomato;
+}
+.action-bar {
+    width: 100%;
+
+    position: absolute;
+    bottom: 0;
+    background-color: chocolate;
+    font-size: 30px;
+    text-align: center;
+}
+.task-title {
+    font-size: 50px;
+    text-align: center;
+    margin: 30px auto;
+}
+.task-left {
+    float: left;
+    width: 50%;
+    height: 95%;
+
+    background-color: tan;
+    word-break: break-all;
+}
+.task-description {
+    margin: 30px;
+}
+.task-right{
+    float: right;
+    width: 50%;
+    display:flex;
+
+    height: 95%;    
+    background-color: pink;
+}
+
+.center-cropped {
+    margin:auto;
+
+    overflow: hidden;
+  }
+
+  .task-line {
+      height: 80px;
+  }
