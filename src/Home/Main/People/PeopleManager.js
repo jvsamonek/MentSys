@@ -73,7 +73,7 @@ export class PeopleLine extends Component {
                             margin: '10px'
                         }}
                     />
-                    <ListItemIcon>
+                    <ListItemIcon className="row-status">
                         {this.state.row.status.name}
                     </ListItemIcon>
                     <TextField
@@ -89,7 +89,10 @@ export class PeopleLine extends Component {
                             margin: '10px'
                         }}
                     />
-                    <Action title={'MODIFICAR'} size={'large'} action={() => this.openTaskManager()}/>
+                    <Action 
+                        title={'MODIFICAR'} 
+                        size={'large'} 
+                        action={() => this.openTaskManager()}/>
                 </ListItem>
                 <Divider />
             </div>
