@@ -75,7 +75,7 @@ html, body, #root, #root>div {
     position: relative;
 }
 .main-diff {
-    height: calc(100% - 60px);
+    height: calc(100% - 48px);
     width: 100%;
 }
 
@@ -97,7 +97,6 @@ html, body, #root, #root>div {
 
     position: absolute;
     bottom: 0;
-    background-color: chocolate;
     font-size: 30px;
     text-align: center;
 }
@@ -111,19 +110,26 @@ html, body, #root, #root>div {
     width: 50%;
     height: 95%;
 
-    background-color: tan;
     word-break: break-all;
 }
 .task-description {
     margin: 30px;
+    height: 70%;
+    width: 100%;
 }
 .task-right{
     float: right;
     width: 50%;
     display:flex;
 
-    height: 95%;    
-    background-color: pink;
+    height: 95%;
+
+    
+    display: grid;
+}
+.task-right-element {    
+    justify-self: center;
+    align-self: center
 }
 
 .center-cropped {
@@ -132,6 +138,17 @@ html, body, #root, #root>div {
     overflow: hidden;
   }
 
-  .task-line {
-      height: 80px;
+.task-line {
+     height: 80px;
   }
+
+
+.back-buton {
+    color: white;
+    float: left;
+    margin: 0 30px 0 0;
+  }
+.action-button {
+    float: left;
+    margin: 0 20px 0 20px;
+}

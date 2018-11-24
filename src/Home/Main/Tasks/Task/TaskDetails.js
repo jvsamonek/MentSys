@@ -1,44 +1,143 @@
 import React, { Component } from 'react'
-import { MainTitle } from '../../MainTitle';
 import { ActionBar } from '../../ActionBar';
+import { BottomActionBar } from '../../BottomActionBar';
 import { MenuCode } from '../../Main';
+import TextField from '@material-ui/core/TextField';
+
+export const TaskMode = {
+    SHOW: 1,
+    EDIT: 2
+}
 
 export class TaskDetails extends Component {
-    constructor({main}){
+    constructor({main, row, mode}){
         super()
         this.state = {
-            main
+            main,
+            row,
+            mode
+        }
+    }
+    render(){
+        console.log('TASKDETAILS ', this.state)
+        if(this.state.mode === TaskMode.EDIT)
+            return <TaskDetailsEdit setMode={this.setMode.bind(this)} back={() => this.backToMain()} row={this.state.row}/>
+        if(this.state.mode === TaskMode.SHOW)
+            return <TaskDetailsShow setMode={this.setMode.bind(this)} back={() => this.backToMain()} row={this.state.row}/>
+        else
+            return <div>Error in Task details</div>
+    }
+    backToMain(){
+        this.state.main.setContent(MenuCode.TASK_LIST)
+    }
+    setMode(mode){
+        this.setState({mode})
+    }
+}
+
+class TaskDetailsEdit extends Component {
+    constructor({ setMode, back, row }){
+        super()
+        this.state = {
+            setMode,
+            back,
+            row,
+            bottomAction: [
+                {name: 'Salvar', action: () => this.saveTask()}
+            ]
+        }
+        this.ref = {
+
         }
     }
     render(){
         return (
             <div className="main-diff">
-                <MainTitle title={'Card N'}  back={() => this.backToMain()}/>
+                <ActionBar back={() => this.state.back()}/>
                 <div className="main-content">
-
                     <div className="task-left">
-                    
                         <div className="task-title">
-                            Titulo                        
+                            <TextField
+                                id="outlined-name"
+                                label="Título"
+                                defaultValue={this.state.row.title}
+                                margin="normal"
+                                variant="outlined"
+                                onChange={e => {this.state.row.title = e.target.value}}
+                            />
                         </div>
                         <div className="task-description">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean maximus vulputate urna, ac pharetra ligula rhoncus at. Fusce viverra ultrices metus sed ultrices. Vivamus feugiat mauris arcu, ut tincidunt dolor varius nec. Duis faucibus dolor nisi. Cras vitae lacinia nibh. Maecenas et augue sed tellus lobortis sodales porttitor a tellus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec et libero efficitur ex pretium blandit eget sed nulla. Donec id felis in nibh rutrum tincidunt. Praesent tristique id ante in auctor. Proin tempus finibus neque tempor eleifend. Nulla dolor libero, convallis sed semper eu, egestas vitae sapien.
-
-                        Nam porta magna sed nisi pellentesque ultricies. Interdum et malesuada fames ac ante ipsum primis in faucibus. In id erat purus. Integer sed mi risus. Sed vel eleifend leo. Sed ullamcorper erat sed dui pharetra dictum. Aliquam convallis a mauris condimentum facilisis. Cras id felis condimentum, laoreet erat id, imperdiet est. Vivamus eleifend eros mi, sed posuere nisi vehicula a. Vivamus et neque risus. Nulla condimentum leo et sagittis molestie.
-
-                        Phasellus dictum dui ut risus tincidunt efficitur. Nulla arcu dui, congue faucibus ipsum eu, faucibus eleifend erat. Duis nec est magna. Fusce vitae maximus nulla. Nulla nec scelerisque tellus. Aliquam metus mi, hendrerit at elementum at, finibus eget justo. Ut pretium, justo et viverra maximus, lectus dolor tempor enim, sit amet tincidunt leo nunc ac nulla. Curabitur consectetur vestibulum diam a tincidunt. Vestibulum hendrerit consectetur nibh, nec convallis odio dignissim non. Praesent malesuada semper magna sed ultricies. Cras sed elit sit amet ex sagittis finibus. Curabitur at suscipit dui. Mauris quis pellentesque tellus, eget aliquet velit. Etiam ac tincidunt mauris. Phasellus sit amet ipsum a orci tempus efficitur non a metus. In sollicitudin viverra ante, nec pulvinar nisi molestie id.
+                            <TextField
+                                className="full"
+                                id="outlined-multiline-static"
+                                label="Descrição"
+                                multiline
+                                rows="25"
+                                defaultValue={this.state.row.content}
+                                margin="normal"
+                                variant="outlined"
+                                onChange={e => {this.state.row.content = e.target.value}}
+                            />
                         </div>
-
                     </div>
                     <div className="task-right">
-                        <img src="#" className="center-cropped"></img>
+                    
+                            <TextField
+                                ref={e => this.ref.image = e}
+                                className="task-right-element"
+                                id="outlined-name"
+                                label="Link da imagem"
+                                defaultValue={this.state.row.image}
+                                margin="normal"
+                                variant="outlined"
+                                onChange={e => {this.state.row.image = e.target.value}}
+                            />
                     </div>
-                    <ActionBar/>
+                    <BottomActionBar actions={this.state.bottomAction}/>
                 </div>
             </div>
         )
     }
-    backToMain(){
-        this.state.main.setContent(MenuCode.TASK_LIST)
+    saveTask(){
+        //make post request
+        this.state.setMode(TaskMode.SHOW, this.state.row)
+
     }
 }
+class TaskDetailsShow extends Component {
+    constructor({ setMode, back, row }){
+        super()
+        this.state = {
+            back,
+            row,
+            bottomAction: [
+                {name: 'Editar',action: () => setMode(TaskMode.EDIT)}                
+            ]
+        }
+    }
+    render(){
+        return (
+            <div className="main-diff">
+                <ActionBar back={() => this.state.back()}/>
+                <div  className="main-content">
+                    <div className="task-left">
+                        <div className="task-title">
+                            {this.state.row.title}
+                        </div>
+                        <div className="task-description">
+                            {this.state.row.content}
+                        </div>
+                    </div>
+                    <div className="task-right">
+                        <img src={this.state.row.image} className="center-cropped" alt="imagem"></img>
+                    </div>
+                    <BottomActionBar actions={this.state.bottomAction}/>
+                </div>
+            </div>
+        )
+    }
+    editTask(){
+        this.setState({mode: TaskMode.EDIT})
+    }
+}
+

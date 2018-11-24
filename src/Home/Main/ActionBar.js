@@ -1,27 +1,66 @@
 import React, { Component } from 'react'
+import Button from '@material-ui/core/Button';
 
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+
 export class ActionBar extends Component {
-    constructor({actions}){
+    constructor({title, back, actions = []}){
         super()
         this.state = {
-            actions: [
-                {label: 'Opcao 1', action(){console.log('AQQQ')}},
-                {label: 'Opcao 2', action(){}},
-                {label: 'Opcao 3', action(){}},
-            ]
-                .map(o => <BottomNavigationAction label={o.label} onClick={o.action}/>)
+            title,
+            back,
+            actions: actions
+                .map(a => 
+                    <Action 
+                        title={a.name} 
+                        action={a.action} 
+                    />)
+        }        
+    }
+    render(){
+        return (
+            <div>
+                <AppBar position="static">
+                    <Toolbar variant="dense">
+                    <div className="back-buton">
+                        {this.state.back &&
+                            <Action title="Voltar" action={this.state.back}/>
+                        }
+                    </div>
+                    <Typography variant="h6" color="inherit">
+                        {this.state.title}
+                    </Typography>
+                    <div className="right">
+                        {this.state.actions}
+                    </div>
+                    </Toolbar>
+                </AppBar>
+            </div>
+        )
+    }
+}
+
+class Action extends Component {
+    constructor({title, action}){
+        super()
+        this.state = {
+            title,
+            action
         }
     }
     render(){
         return (
-            <BottomNavigation  
-                className="action-bar"
-                showLabels
-            >
-                {this.state.actions}
-            </BottomNavigation>
+            <div class="action-button">
+                <Button 
+                variant="outlined" 
+                size="small"
+                onClick={this.state.action}
+                >
+                    {this.state.title}
+                </Button>
+            </div>
         )
     }
 }

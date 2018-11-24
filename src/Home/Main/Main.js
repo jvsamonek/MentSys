@@ -11,18 +11,18 @@ import { AlertDetails } from './Alerts/AlertDetails';
 import { MyStatus } from './Status/MyStatus';
 
 export const MenuCode = {
-    NEWS: 0,
+    NEWS: 1,
 
-    TASK_LIST: 1,
-    TASK_DETAILS: 2,
+    TASK_LIST: 2,
+    TASK_DETAILS: 3,
 
-    PEOPLE_LIST: 3,    
-    PEOPLE_DETAILS: 4,
+    PEOPLE_LIST: 4,    
+    PEOPLE_DETAILS: 5,
     
-    ALERT_LIST: 5,
-    ALERT_DETAILS: 6,
+    ALERT_LIST: 6,
+    ALERT_DETAILS: 7,
 
-    STATUS: 7
+    STATUS: 8
 }
 
 export class Main extends Component {
@@ -32,10 +32,8 @@ export class Main extends Component {
             menuCode: MenuCode.TASK_LIST
         }
     }
-    setContent(menuCode){
-        this.setState({menuCode})
-    }
-    render(){        
+    render(){
+        console.log('MAIN', this.state.options,this.state.options)
         return (
             <Grid className="main-container right" ref="main">
                 <div className="main">
@@ -44,6 +42,9 @@ export class Main extends Component {
             </Grid>
         )
     }
+    setContent(menuCode, row, options){
+        this.setState({menuCode, row, options})
+    }
     getMainScreen(){
         switch(this.state.menuCode){
             case MenuCode.NEWS:
@@ -51,7 +52,7 @@ export class Main extends Component {
             case MenuCode.TASK_LIST: 
                 return <TaskCards main={this}/>
             case MenuCode.TASK_DETAILS: 
-                return <TaskDetails main={this}/>
+                return <TaskDetails main={this} row={this.state.row} mode={this.state.options.mode}/>
             case MenuCode.PEOPLE_LIST:
                 return <PeopleManager/>
             case MenuCode.PEOPLE_DETAILS:

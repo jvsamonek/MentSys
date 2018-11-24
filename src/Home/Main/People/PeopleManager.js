@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MainTitle } from '../MainTitle'
+import { ActionBar } from '../ActionBar'
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -16,7 +16,7 @@ export class PeopleManager extends Component {
     render(){
         return (
             <div className="main-diff">
-                <MainTitle title={'Central de Atribuições'}/>
+                <ActionBar title={'Central de Atribuições'}/>
                 <div className="main-content">
                     <List >
                         {this.state.tasks}
