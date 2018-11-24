@@ -41,7 +41,7 @@ export class Card extends Component {
                         {this.state.title}
                     </Typography>
                     <Typography component="p">
-                        {this.state.content.slice(0, 300) + '...'}
+                        {this.state.content.slice(0, 420) + '...'}
                     </Typography>
                     </CardContent>
                 </CardActionArea>

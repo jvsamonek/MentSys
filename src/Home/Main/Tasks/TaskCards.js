@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { MainTitle } from '../MainTitle'
 import { Card } from './Card'
 
-export class TaskList extends Component {
+export class TaskCards extends Component {
     constructor({main}){
         super()
         const title = 'Card '

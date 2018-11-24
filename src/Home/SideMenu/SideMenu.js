@@ -11,8 +11,11 @@ export class SideMenu extends Component{
         super()
         this.state = {
             options: [
+                {nome: 'Novidades', menuCode: MenuCode.NEWS},
                 {nome: 'Tarefas', menuCode: MenuCode.TASK_LIST},
-                {nome: 'Central de Atribuições', menuCode: MenuCode.TASK_MANAGER},
+                {nome: 'Central de Atribuições', menuCode: MenuCode.PEOPLE_LIST},
+                {nome: 'Alertas', menuCode: MenuCode.ALERT_LIST},
+                {nome: 'Status', menuCode: MenuCode.STATUS},
             ]
                 .map(o => <MenuOption home={home} name={o.nome} menuCode={o.menuCode}/>),
             home
@@ -52,6 +55,6 @@ class MenuOption extends Component{
         )
     }    
     selectMenu(){
-        this.state.home.main.setContent(this.state.menuCode || MenuCode.TASK_LIST)
+        this.state.home.main.setContent(this.state.menuCode)
     }
 }

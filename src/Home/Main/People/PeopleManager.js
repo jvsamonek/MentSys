@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MainTitle } from '../../Main/MainTitle'
+import { MainTitle } from '../MainTitle'
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';

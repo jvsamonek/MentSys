@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { MainTitle } from '../MainTitle';
-import { ActionBar } from '../ActionBar';
-import { MenuCode } from '../Main';
+import { MainTitle } from '../../MainTitle';
+import { ActionBar } from '../../ActionBar';
+import { MenuCode } from '../../Main';
 
 export class TaskDetails extends Component {
     constructor({main}){
