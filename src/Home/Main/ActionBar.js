@@ -42,12 +42,13 @@ export class ActionBar extends Component {
     }
 }
 
-class Action extends Component {
-    constructor({title, action}){
+export class Action extends Component {
+    constructor({title, action, size}){
         super()
         this.state = {
             title,
-            action
+            action,
+            size: size || "small"
         }
     }
     render(){
@@ -55,7 +56,7 @@ class Action extends Component {
             <div class="action-button">
                 <Button 
                 variant="outlined" 
-                size="small"
+                size={this.state.size}
                 onClick={this.state.action}
                 >
                     {this.state.title}

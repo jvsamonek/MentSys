@@ -29,7 +29,7 @@ export class Main extends Component {
     constructor(){
         super()
         this.state = {
-            menuCode: MenuCode.TASK_LIST
+            menuCode: MenuCode.PEOPLE_LIST
         }
     }
     render(){
@@ -54,9 +54,9 @@ export class Main extends Component {
             case MenuCode.TASK_DETAILS: 
                 return <TaskDetails main={this} row={this.state.row} mode={this.state.options.mode}/>
             case MenuCode.PEOPLE_LIST:
-                return <PeopleManager/>
+                return <PeopleManager main={this}/>
             case MenuCode.PEOPLE_DETAILS:
-                return <PeopleDetails/>
+                return <PeopleDetails main={this} row={this.state.row}/>
             case MenuCode.ALERT_LIST:
                 return <AlertManager/>
             case MenuCode.ALERT_DETAILS:

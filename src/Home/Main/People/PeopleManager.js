@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
-import { ActionBar } from '../ActionBar'
+import { ActionBar, Action } from '../ActionBar'
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import TextField from '@material-ui/core/TextField';
+import { MenuCode } from '../Main';
 
 export class PeopleManager extends Component {
-    constructor({title}){
+    constructor({title, main}){
         super()
         this.state = {
-            tasks: [...Array(50).keys()].map(n => <PeopleLine/>)
-        }
+            tasks: [...Array(50).keys()].map(n => <PeopleLine main={main}/>)
+        }        
     }
     render(){
         return (
@@ -28,27 +29,73 @@ export class PeopleManager extends Component {
 }
 
 export class PeopleLine extends Component {
-    constructor({ row }){
+    constructor({ row, main }){
         super()
         this.state = {
-            row
+            main,
+            row: {
+                task: {
+                    id: 111,
+                    title: 'titulo',
+                    content: 'descricao',
+                    start: new Date().toLocaleDateString(),
+                    end: new Date().toLocaleDateString(),
+                    image: 'none',
+                    userId: 1,
+                    statusId: 2
+                },
+                user: {
+                    id: 1,
+                    name: 'Guilherme Rocha'                    
+                },
+                status: {
+                    id: 2,
+                    name: 'PROBLEMA'
+                }
+            }
         }
     }
     render(){
         return (            
             <div>
                 <ListItem button className="task-line">
-                    <ListItemText primary={'NOME DO RESPONSAVEL'} />
+                    
+                    <TextField
+                        className="task-manager-title left"
+                        id="outlined-name"
+                        label="Tarefa"
+                        value={this.state.row.task.title}
+                        margin="normal"
+                        variant="outlined"
+                        onChange={e => {this.state.row.task.title = e.target.value}}
+                        style={{
+                            width: '30%',
+                            margin: '10px'
+                        }}
+                    />
                     <ListItemIcon>
-                        STATUS
+                        {this.state.row.status.name}
                     </ListItemIcon>
-                    <ListItemText primary={'NOME DA TAREFA'} />
-                    <ListItemIcon>
-                        MODIFICAR
-                    </ListItemIcon>
+                    <TextField
+                        className="task-manager-title left"
+                        id="outlined-name"
+                        label="Responsavel"
+                        value={this.state.row.user.name}
+                        margin="normal"
+                        variant="outlined"
+                        onChange={e => {this.state.row.user.name = e.target.value}}
+                        style={{
+                            width: '30%',
+                            margin: '10px'
+                        }}
+                    />
+                    <Action title={'MODIFICAR'} size={'large'} action={() => this.openTaskManager()}/>
                 </ListItem>
                 <Divider />
             </div>
         )
+    }
+    openTaskManager(){
+        this.state.main.setContent(MenuCode.PEOPLE_DETAILS, this.state.row)
     }
 }
