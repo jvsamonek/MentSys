@@ -13,6 +13,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import blue from '@material-ui/core/colors/blue';
 import TextField from '@material-ui/core/TextField';
+import { Req } from '../../Components/Request';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const styles = {
@@ -36,15 +37,25 @@ class SimpleDialog extends React.Component {
   handleListItemClick = value => {
     this.props.onClose(value);
   };
-  makeLogin = () => {
-    localStorage.setItem('loginStatus', JSON.stringify({
-      name: this.state.row.email.split('@')[0],
-      email: this.state.row.email,
-      password: this.state.row.password
-    }))
-    //REQUEST POST
-    // eslint-disable-next-line no-restricted-globals
-    location.reload()
+  makeLogin = async () => {
+    //POST REQUEST {loginStatus}
+    //expected {success: true | false, user: {name, email}}
+
+    const data = {
+      succes: true,
+      user: {
+        name: 'Guilherme',
+        email: 'email@email.com'
+      }
+    }
+
+    if(data.succes){
+      localStorage.setItem('loginStatus', JSON.stringify(data.user))
+      // eslint-disable-next-line no-restricted-globals
+      location.reload()
+    }
+    else
+      alert('Não foi possivel se conectar.')
   }
 
   render() {
@@ -52,7 +63,7 @@ class SimpleDialog extends React.Component {
 
     return (
       <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
-        <DialogTitle id="simple-dialog-title">Se conectar...</DialogTitle>
+        <DialogTitle id="simple-dialog-title">Se conectar como...</DialogTitle>
         <div>
           <List>
           <ListItem button>                
@@ -125,7 +136,7 @@ class SimpleDialogDemo extends React.Component {
     if(loginStatus)
         content = <Button onClick={this.logout}>{loginStatus.name} - DESCONECTAR</Button>
     else
-        content = <Button onClick={this.handleClickOpen}>Logar</Button>
+        content = <Button onClick={this.handleClickOpen}>Login</Button>
     return (
       <div
       className="login-box full">
@@ -139,9 +150,21 @@ class SimpleDialogDemo extends React.Component {
     );
   }
   logout = () => {
-    localStorage.setItem('loginStatus', null)
-    // eslint-disable-next-line no-restricted-globals
-    location.reload()
+    //POST REQUEST {loginStatus}
+    //expected {success: true | false}
+
+    const data = {
+      success: true
+    }
+
+    if(data.success){
+      alert("Você foi desconectado.")
+      localStorage.setItem('loginStatus', null)
+      // eslint-disable-next-line no-restricted-globals
+      location.reload()
+    }
+    else
+      alert("Não foi possivel desconectar.")
   }
 }
 

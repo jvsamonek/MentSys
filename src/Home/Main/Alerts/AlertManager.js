@@ -5,13 +5,36 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import TextField from '@material-ui/core/TextField';
+import { timeout } from '../../Home';
 
 export class AlertManager extends Component {
-    constructor({}){
+    constructor(){
         super()
+        this.fetchDta()
         this.state = {
-            alerts: [...Array(10).keys()].map(n => <Alert/>)
+            row: []
         }        
+    }
+    async fetchDta(){
+        //GET REQUEST {loginStatus}
+        //expected {alerts: [{reason, task: {id, name}, status: {name},...]}
+        
+        await timeout(500)
+        const data = {
+            row: 
+                [...Array(0 | (5 + Math.random() * 10)).keys()]
+                    .map(n => ({
+                        reason: 'Passou do prazo', 
+                        task: {
+                            id: n, 
+                            name: 'Tarefa ' + n
+                        }, 
+                        status: {
+                            name: 'GRAVE'
+                        }
+                    }))
+        }
+        this.setState(data)
     }
     render(){
         return (
@@ -19,7 +42,9 @@ export class AlertManager extends Component {
                 <ActionBar title={'Central de Alertas'}/>
                 <div className="main-content">
                     <List >
-                        {this.state.alerts}
+                        {this.state.row.map(() => (
+                            <Alert/>
+                        ))}
                     </List>
                 </div>
             </div>

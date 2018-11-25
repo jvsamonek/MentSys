@@ -13,7 +13,7 @@ export class SideMenu extends Component{
             options: [
                 {nome: 'Novidades', menuCode: MenuCode.NEWS},
                 {nome: 'Tarefas', menuCode: MenuCode.TASK_LIST},
-                {nome: 'Central de Atribuições', menuCode: MenuCode.PEOPLE_LIST},
+                {nome: 'Atividades', menuCode: MenuCode.PEOPLE_LIST},
                 {nome: 'Alertas', menuCode: MenuCode.ALERT_LIST},
                 {nome: 'Status', menuCode: MenuCode.STATUS},
             ]

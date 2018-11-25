@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { TaskCards } from './Tasks/TaskCards';
 import { TaskDetails } from './Tasks/Task/TaskDetails';
-import { PeopleManager } from './People/PeopleManager';
+import { PeopleManager } from './Activitys/ActivityManager';
 
 import Grid from '@material-ui/core/Grid';
 import { News } from './News/News';
-import { PeopleDetails } from './People/PeopleDetails';
+import { ActivityDetails } from './Activitys/ActivityDetails';
 import { AlertManager } from './Alerts/AlertManager';
 import { UserStatus } from './Status/UserStatus';
 
@@ -54,7 +54,7 @@ export class Main extends Component {
             case MenuCode.PEOPLE_LIST:
                 return <PeopleManager main={this}/>
             case MenuCode.PEOPLE_DETAILS:
-                return <PeopleDetails main={this} row={this.state.row}/>
+                return <ActivityDetails main={this} row={this.state.row}/>
             case MenuCode.ALERT_LIST:
                 return <AlertManager/>
             case MenuCode.STATUS:

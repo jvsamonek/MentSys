@@ -6,21 +6,48 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import TextField from '@material-ui/core/TextField';
 import { MenuCode } from '../Main';
+import { timeout } from '../../Home';
 
 export class PeopleManager extends Component {
     constructor({title, main}){
         super()
+        this.fetchData()
         this.state = {
-            tasks: [...Array(10).keys()].map(n => <PeopleLine main={main}/>)
+            row: [],
+            main
         }        
+    }
+    async fetchData(){
+        //GET REQUEST {loginStatus}
+        //expected [{id, status: {name}, task: {title}, user: {name}}]
+
+        await timeout(500)
+        const data = {
+            row: [...Array(10).keys()]
+                .map(n => ({
+                    id: n,
+                    status: {
+                        name: 'PENDENTE'
+                    },
+                    task: {
+                        title: 'Tarefa ' + n + 1
+                    }, 
+                    user: {
+                        name: 'Guilherme'
+                    }
+                }))
+        }
+        this.setState(data)
     }
     render(){
         return (
             <div className="main-diff">
-                <ActionBar title={'Central de Atribuições'}/>
+                <ActionBar title={'Central de Atividades'}/>
                 <div className="main-content">
                     <List >
-                        {this.state.tasks}
+                        {this.state.row.map(activity => 
+                            <PeopleLine main={this.state.main} row={activity}/>
+                        )}
                     </List>
                 </div>
             </div>
@@ -33,26 +60,7 @@ export class PeopleLine extends Component {
         super()
         this.state = {
             main,
-            row: {
-                task: {
-                    id: 111,
-                    title: 'titulo',
-                    content: 'descricao',
-                    start: new Date().toLocaleDateString(),
-                    end: new Date().toLocaleDateString(),
-                    image: 'none',
-                    userId: 1,
-                    statusId: 2
-                },
-                user: {
-                    id: 1,
-                    name: 'Guilherme Rocha'                    
-                },
-                status: {
-                    id: 2,
-                    name: 'PROBLEMA'
-                }
-            }
+            row       
         }
     }
     render(){
@@ -67,7 +75,6 @@ export class PeopleLine extends Component {
                         value={this.state.row.task.title}
                         margin="normal"
                         variant="outlined"
-                        onChange={e => {this.state.row.task.title = e.target.value}}
                         style={{
                             width: '30%',
                             margin: '10px'
@@ -83,7 +90,6 @@ export class PeopleLine extends Component {
                         value={this.state.row.user.name}
                         margin="normal"
                         variant="outlined"
-                        onChange={e => {this.state.row.user.name = e.target.value}}
                         style={{
                             width: '30%',
                             margin: '10px'

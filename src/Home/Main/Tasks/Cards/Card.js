@@ -10,30 +10,16 @@ import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import { TaskMode } from '../Task/TaskDetails';
+import { timeout } from '../../../Home';
 
 export class Card extends Component {
 
-    constructor({id, main}){
+    constructor({main, row}){
         super()
-
-        this.fecthData()
         this.state = {
-            id,
-            row: {
-                title: 'Title',
-                content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rhoncus neque purus, vitae sagittis mauris venenatis ac. Pellentesque ac nisl blandit, ullamcorper elit eget, consequat risus. Quisque auctor purus vel ante fringilla, eget sagittis risus aliquet. Aliquam sit amet tincidunt nunc. Maecenas rutrum gravida purus, eget placerat justo. Maecenas a efficitur odio. Aenean non tellus tristique risus lobortis fermentum vel eget tortor. Integer facilisis cursus lacus in finibus. Maecenas egestas risus at scelerisque tempor. Quisque a auctor augue. In hac habitasse platea dictumst. Proin nec lorem non est pretium condimentum in et velit. Aenean quis mauris ut sapien mattis congue. Nunc lectus sem, laoreet non purus in, vulputate mattis nulla. Donec rutrum fermentum erat sit amet vehicula. Maecenas sed orci tellus.',
-                image: 'none'                
-            },
+            row,
             main
         }
-    }
-    async fecthData(){
-        /*const request = await fetch('http://localhost:8080/card.json', {
-            method: 'GET'
-        })
-        const data = await request.json()
-        console.log(data)
-        this.setState({...data})*/
     }
     render(){
         return (
