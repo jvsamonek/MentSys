@@ -14,7 +14,7 @@ html, body, #root, #root>div {
 .right {
     float: right;
 }
-.bottom {    
+.bottom {
     position: absolute;
     bottom: 0;
 }
@@ -24,7 +24,7 @@ html, body, #root, #root>div {
 }
 .content{
     margin: 0 auto;
-    max-width: 1600px;
+    max-width: 1300px;
     height: calc(100% - 139px);
 }
 
@@ -174,4 +174,51 @@ html, body, #root, #root>div {
     background-color: rgba(255, 255, 255, 0.822);
     border-radius: 6px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+.graph-card {
+    width: calc(100% - 40px);
+    margin: 10px auto;
+}
+.info-card {
+    width: calc(100% - 40px);
+    min-height: 250px;
+    margin: 10px auto;
+}
+.info-bar {    
+    background-color: rgb(196, 196, 196);
+    height: 200px;
+    margin: 15px;
+    width: 100px;
+    border-radius: 10px;
+    position: relative;
+    overflow: inherit;
+    float: left;
+}
+.info-bar-status {
+    background-color: rgb(63, 81, 181);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.info-bar-value {
+
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    font-size: 50px;
+}
+.info-bar-title {
+    font-family: Arial, sans-serif;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    position: absolute;
+    bottom: 0;
+    left: 20%;
 }
