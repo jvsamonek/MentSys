@@ -1,5 +1,225 @@
+html, 
 body {
-  margin: 20px 0;
-  padding: 0;
-  font-family: sans-serif;
+    height: 100%;
+}
+
+html, body, #root, #root>div {
+    height: 100%;
+    margin: 0;
+}
+
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+.bottom {
+    position: absolute;
+    bottom: 0;
+}
+.full {
+    height: 100%;
+    width: 100%;
+}
+.content{
+    margin: 0 auto;
+    max-width: 1300px;
+    height: calc(100% - 139px);
+}
+
+.header {
+    padding: 0 20px 0 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, .7fr);
+
+    color: white;
+    background-color: rgb(39, 43, 51);
+}
+.header-content {
+    grid-row: 2 / 3;
+}
+.login-box {    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-color: white;
+    color: black;
+    height: 35px;
+    border-radius: 5px;
+    width: 300px;
+    float: right;
+}
+
+.side-menu {
+    height: 100%;
+    width: 280px;
+}
+
+
+.main-container {
+    width: calc(100% - 280px);
+    height: 100%;
+}
+.main {
+    margin: 10px;
+    background-color: antiquewhite;
+    height: calc(100% - 20px);
+}
+.main-title {
+    height: 36px;
+    text-align: center;
+    vertical-align: bottom;
+    background-color: chartreuse;
+    
+}
+.main-content {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    background-color: cornflowerblue;
+
+    position: relative;
+}
+.main-diff {
+    height: calc(100% - 48px);
+    width: 100%;
+}
+
+
+.card {
+    margin: 10px;
+    width: 300px;
+    height: 350px;
+    background-color: crimson;
+}
+.card-title {
+    padding: 10px;
+    font-size: 15px;
+    text-align: center;
+    background-color: tomato;
+}
+.action-bar {
+    width: 100%;
+
+    position: absolute;
+    bottom: 0;
+    font-size: 30px;
+    text-align: center;
+}
+.task-title {
+    font-family: Arial, sans-serif;
+    font-size: 50px;
+    text-align: center;
+    margin: 30px auto;
+}
+.task-left {
+    float: left;
+    width: 50%;
+    height: 95%;
+
+    word-break: break-all;
+}
+.task-description {
+    margin: 30px;
+    height: 70%;
+    width: 100%;
+}
+.task-right{
+    float: right;
+    width: 50%;
+    display:flex;
+
+    height: 95%;
+
+    
+    display: grid;
+}
+.task-right-element {    
+    justify-self: center;
+    align-self: center
+}
+
+.center-cropped {
+    margin:auto;
+
+    overflow: hidden;
+  }
+
+.task-line {
+     height: 80px;
+  }
+
+
+.back-buton {
+    color: white;
+    float: left;
+    margin: 0 30px 0 0;
+  }
+.action-button {
+    float: left;
+    margin: 0 20px 0 20px;
+}
+.task-manager-title {
+    width: 82%;
+}
+
+.row-status {    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 55px;
+    background-color: rgba(255, 255, 255, 0.822);
+    border-radius: 6px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+.graph-card {
+    width: calc(100% - 40px);
+    margin: 10px auto;
+}
+.info-card {
+    width: calc(100% - 40px);
+    min-height: 250px;
+    margin: 10px auto;
+}
+.info-bar {    
+    background-color: rgb(196, 196, 196);
+    height: 200px;
+    margin: 15px;
+    width: 100px;
+    border-radius: 10px;
+    position: relative;
+    overflow: inherit;
+    float: left;
+}
+.info-bar-status {
+    background-color: rgb(63, 81, 181);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.info-bar-value {
+
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    font-size: 50px;
+}
+.info-bar-title {
+    font-family: Arial, sans-serif;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    position: absolute;
+    bottom: 0;
+    left: 20%;
 }
