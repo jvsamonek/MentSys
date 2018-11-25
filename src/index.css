@@ -110,6 +110,7 @@ html, body, #root, #root>div {
     text-align: center;
 }
 .task-title {
+    font-family: Arial, sans-serif;
     font-size: 50px;
     text-align: center;
     margin: 30px auto;
