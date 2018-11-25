@@ -11,7 +11,7 @@ export class PeopleManager extends Component {
     constructor({title, main}){
         super()
         this.state = {
-            tasks: [...Array(50).keys()].map(n => <PeopleLine main={main}/>)
+            tasks: [...Array(10).keys()].map(n => <PeopleLine main={main}/>)
         }        
     }
     render(){

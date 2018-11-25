@@ -1,5 +1,5 @@
 import React ,{ Component } from 'react'
-import { LoginBox}  from './LoginBox'
+import LoginBox  from './LoginBox'
 
 export class Header extends Component{
     render(){

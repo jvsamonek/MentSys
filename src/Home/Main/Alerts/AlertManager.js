@@ -10,7 +10,7 @@ export class AlertManager extends Component {
     constructor({}){
         super()
         this.state = {
-            alerts: [...Array(50).keys()].map(n => <Alert/>)
+            alerts: [...Array(10).keys()].map(n => <Alert/>)
         }        
     }
     render(){

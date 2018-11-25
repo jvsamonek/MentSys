@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import { News } from './News/News';
 import { PeopleDetails } from './People/PeopleDetails';
 import { AlertManager } from './Alerts/AlertManager';
-import { MyStatus } from './Status/MyStatus';
+import { UserStatus } from './Status/UserStatus';
 
 export const MenuCode = {
     NEWS: 1,
@@ -27,13 +27,13 @@ export class Main extends Component {
     constructor(){
         super()
         this.state = {
-            menuCode: MenuCode.ALERT_LIST
+            menuCode: MenuCode.NEWS
         }
     }
     render(){
         console.log('MAIN', this.state.options,this.state.options)
         return (
-            <Grid className="main-container right" ref="main">
+            <Grid className="main-container right bounceInLeft" ref="main">
                 <div className="main">
                     {this.getMainScreen()}
                 </div>
@@ -58,7 +58,7 @@ export class Main extends Component {
             case MenuCode.ALERT_LIST:
                 return <AlertManager/>
             case MenuCode.STATUS:
-                return <MyStatus/>
+                return <UserStatus/>
             default: 
                 return <div>Error</div>
         }

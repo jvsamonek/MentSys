@@ -40,8 +40,17 @@ html, body, #root, #root>div {
 .header-content {
     grid-row: 2 / 3;
 }
-.login-box {
-    background-color: aqua;
+.login-box {    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-color: white;
+    color: black;
+    height: 35px;
+    border-radius: 5px;
+    width: 300px;
+    float: right;
 }
 
 .side-menu {

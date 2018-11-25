@@ -22,7 +22,7 @@ export class TaskCards extends Component {
     render(){
         return (
             <div className="main-diff">
-                <ActionBar title={'Tarefas Ativas'} actions={this.state.actions}/>
+                <ActionBar title={'Tarefas Ativas'} actions={[]}/>
                 <div className="main-content">
                     {this.state.cards}
                 </div>
