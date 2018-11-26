@@ -17,7 +17,7 @@ export class AlertManager extends Component {
     }
     async fetchDta(){
         //GET REQUEST {loginStatus}
-        //expected {alerts: [{reason, task: {id, name}, status: {name},...]}
+        //expected {alerts: [{reason, task: {_id, name}, status: {name},...]}
         
         await timeout(500)
         const data = {
@@ -26,7 +26,7 @@ export class AlertManager extends Component {
                     .map(n => ({
                         reason: 'Passou do prazo', 
                         task: {
-                            id: n, 
+                            _id: n, 
                             name: 'Tarefa ' + n
                         }, 
                         status: {

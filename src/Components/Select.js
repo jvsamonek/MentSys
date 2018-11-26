@@ -72,7 +72,7 @@ class SimpleSelect extends React.Component {
             }
           >
             {this.state.options.map(o => 
-              <MenuItem value={o.id}>{o.name}</MenuItem>  
+              <MenuItem value={o._id}>{o.name}</MenuItem>  
             )}
           </SelectUI>
         </FormControl>

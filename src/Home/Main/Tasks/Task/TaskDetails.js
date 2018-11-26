@@ -15,7 +15,7 @@ export class TaskDetails extends Component {
     constructor({main, row, mode}){
         super()
         this.fecthData()
-        //expected row = {task: {id, title, content}}
+        //expected row = {task: {_id, title, content}}
         this.state = {
             main,
             row,
@@ -23,13 +23,13 @@ export class TaskDetails extends Component {
         }
     }
     async fecthData(){
-        //GET REQUEST {loginStatus, task: {id}}
-        //expected {task: {id, title, content, imagePath}}
+        //GET REQUEST {loginStatus, task: {_id}}
+        //expected {task: {_id, title, content, imagePath}}
         
         await timeout(500)
         const data = {
             row: {
-                id: this.state.row.id,
+                _id: this.state.row._id,
                 title: this.state.row.title,
                 content: this.state.row.content,
                 imagePath: 'localhost:3000/image' + this.state.row.id
@@ -120,7 +120,7 @@ class TaskDetailsEdit extends Component {
         )
     }
     async saveTask(){
-        //POST REQUEST {loginStatus, task: {id, title, content, imagePath}}
+        //POST REQUEST {loginStatus, task: {_id, title, content, imagePath}}
         //expected {success: true | false}
         
         await timeout(500)
@@ -154,7 +154,7 @@ class TaskDetailsShow extends Component {
         if(!confirmed)
             return
 
-        //POST REQUEST {loginStatus, task: {id}}
+        //POST REQUEST {loginStatus, task: {_id}}
         //expected {success: true | false}
 
         await timeout(500)

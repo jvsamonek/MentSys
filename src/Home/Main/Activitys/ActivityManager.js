@@ -19,13 +19,13 @@ export class PeopleManager extends Component {
     }
     async fetchData(){
         //GET REQUEST {loginStatus}
-        //expected [{id, status: {name}, task: {title}, user: {name}}]
+        //expected [{_id, status: {name}, task: {title}, user: {name}}]
 
         await timeout(500)
         const data = {
             row: [...Array(10).keys()]
                 .map(n => ({
-                    id: n,
+                    _id: n,
                     status: {
                         name: 'PENDENTE'
                     },

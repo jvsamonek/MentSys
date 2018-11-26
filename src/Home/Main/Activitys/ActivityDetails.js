@@ -11,14 +11,14 @@ export class ActivityDetails extends Component {
     constructor({ main, row }){
         super()
         this.fetchData()
-        //expected row: {id, status: {name}, task: {title}, user: {name}}
+        //expected row: {_id, status: {name}, task: {title}, user: {name}}
         this.state = {
             main,
             row,
             status: [
-                {id: 0, name: 'ANTES'},
-                {id: 1, name: 'ANTES'},
-                {id: 2, name: 'ANTES'}
+                {_id: 0, name: 'ANTES'},
+                {_id: 1, name: 'ANTES'},
+                {_id: 2, name: 'ANTES'}
             ],
             users: [],
             bottomAction: [
@@ -27,48 +27,48 @@ export class ActivityDetails extends Component {
         }
     }
     async fetchData(){
-        //GET REQUEST {loginSatus, activity: {id}}
-        //expected {activity: {id, status: {id}, task: {id, title, startDate, endDate}, user: {id}}}
+        //GET REQUEST {loginSatus, activity: {_id}}
+        //expected {activity: {_id} status: {_id}, task: {_id} title, startDate, endDate}, user: {_id}}}
 
         //GET REQUEST {}
-        //expected {status: [{id, name}, ...]}
+        //expected {status: [{_id} name}, ...]}
         
         //GET REQUEST {}
-        //expected {users: [{id, name}, ...]}
+        //expected {users: [{_id} name}, ...]}
 
         await timeout(500)
         const data = {
             row: {
-                id: 55, 
-                status: {id: 1}, 
+                _id: 55, 
+                status: {_id: 1}, 
                 task: {
-                    id: 33, 
+                    _id: 33, 
                     title: 'titulo',
                     startDate: new Date().toLocaleDateString(),
                     endDate: new Date().toLocaleDateString()
                 }, 
                 user: {
-                    id: 1
+                    _id: 1
                 }
             },
             status: [
-                {id: 0, name: 'PENDENTE'},
-                {id: 1, name: 'ATRASADO'},
-                {id: 2, name: 'CONCLUIDO'}
+                {_id: 0, name: 'PENDENTE'},
+                {_id: 1, name: 'ATRASADO'},
+                {_id: 2, name: 'CONCLUIDO'}
             ],
             users: [
-                {id: 0, name: 'Guilherme'},
-                {id: 1, name: 'Gabriel'},
-                {id: 2, name: 'Amanda'},
+                {_id: 0, name: 'Guilherme'},
+                {_id: 1, name: 'Gabriel'},
+                {_id: 2, name: 'Amanda'},
             ]
         }
         debugger
-        //this.status._self.setState({value: data.row.status.id, options: data.status})
+        //this.status._self.setState({value: data.row.status._id, options: data.status})
         this.setState(data)
     }
     render(){
-        this.status = <Select className="left" title='Status' value={this.state.row.status.id} options={this.state.status}/>
-        this.user = <Select className="left" title='Responsavel' value={this.state.row.user.id} options={this.state.users}/>
+        this.status = <Select className="left" title='Status' value={this.state.row.status._id} options={this.state.status}/>
+        this.user = <Select className="left" title='Responsavel' value={this.state.row.user._id} options={this.state.users}/>
         
         return (
             <div className="main-diff">
@@ -128,7 +128,7 @@ export class ActivityDetails extends Component {
         this.state.main.setContent(MenuCode.PEOPLE_LIST)
     }
     async saveTask(){
-        //POST REQUEST {loginStatus, activity: {id, status: {id}, task: {id, startDate, endDate}, user: {id}}}
+        //POST REQUEST {loginStatus, activity: {_id} status: {_id}, task: {_id} startDate, endDate}, user: {_id}}}
         //expected {success: true | false}
 
         await timeout(500)

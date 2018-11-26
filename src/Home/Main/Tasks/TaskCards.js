@@ -19,13 +19,13 @@ export class TaskCards extends Component {
     }
     async fecthData(){
         //GET REQUEST {loginStatus}
-        //expected [{task: {id, title, content}}, ...]
+        //expected [{task: {_id, title, content}}, ...]
         
         await timeout(500)
         const data = {
             row: [...Array(20).keys()]
                 .map(n => ({
-                    id: n,
+                    _id: n,
                     title: 'Tarefa ' + n,
                     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie lacus magna, vitae mattis augue suscipit ut. Curabitur non orci nec quam laoreet porta nec in magna. Etiam fringilla lectus id quam rutrum auctor. Aliquam quis pharetra risus, id condimentum leo. Nunc mattis, nulla ac gravida rhoncus, odio elit laoreet dui, at malesuada elit purus ut massa. Integer venenatis tellus ante, a faucibus eros accumsan ut. Nulla tempus ultricies consequat.'
                 }))
@@ -48,7 +48,7 @@ export class TaskCards extends Component {
     criarTarefa(){
         this.state.main.setContent(
             MenuCode.TASK_DETAILS,
-            {id: 0},
+            {_id: 0},
             {mode: TaskMode.EDIT}
         )
     }
