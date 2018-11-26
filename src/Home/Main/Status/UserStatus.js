@@ -3,6 +3,7 @@ import { ActionBar } from '../ActionBar';
 import TextField from '@material-ui/core/TextField';
 import { BottomActionBar } from '../BottomActionBar';
 import { timeout } from '../../Home';
+import { MainWaiting } from '../Main';
 
 export class UserStatus extends Component {
     constructor({ row }){
@@ -25,14 +26,14 @@ export class UserStatus extends Component {
                 name:'Guilherme',
                 lastName: 'Rocha',
                 email: 'email@email.com',
-                phone: '41 99002222',
-                title: 'DEPOIS'
+                phone: '41 99002222'
             }
         }
         this.setState(data)
     }
     render(){
-        const me = this
+        if(!this.state.row.name || !this.state.row.lastName || !this.state.row.email || !this.state.row.phone)
+            return <MainWaiting/>
         return (            
             <div className="main-diff">
                 <ActionBar title={'Informações Pessoais'} actions={[]}/>

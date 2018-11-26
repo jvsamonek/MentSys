@@ -44,13 +44,6 @@ export class Card extends Component {
                 </CardActions>
             </CardM>
         )
-        
-        /*return (
-            <div className="card left" onClick={this.showTaskDetails}>
-                <CardTitle title={this.state.title}/>
-                <p>{this.state.content}</p>
-            </div>
-        )*/
     }
     showTaskDetails = () => {        
         this.state.main.setContent(MenuCode.TASK_DETAILS, this.state.row, {mode: TaskMode.SHOW})

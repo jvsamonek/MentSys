@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { ActionBar } from '../ActionBar';
-import { MenuCode } from '../Main';
+import { MenuCode, MainWaiting } from '../Main';
 import TextField from '@material-ui/core/TextField';
 import { Select } from '../../../Components/Select';
 import { BottomActionBar } from '../BottomActionBar';
 import { timeout } from '../../Home';
-import { Req } from '../../../Components/Request';
 
 export class ActivityDetails extends Component {
     constructor({ main, row }){
@@ -62,16 +61,7 @@ export class ActivityDetails extends Component {
     }
     render(){
         if(this.state.status.length === 0 || this.state.users.length === 0)
-            return (
-                <div className="main-diff">
-                    <ActionBar title="Propriedades da Atividade"
-                        back={() => this.back()}
-                    />
-                    <div className="main-content">
-                        <BottomActionBar actions={this.state.bottomAction}/>
-                    </div>
-                </div>
-            )
+            return <MainWaiting/>
         this.status = <Select className="left" title='Status' value={this.state.row.status._id} options={this.state.status}/>
         this.user = <Select className="left" title='Responsavel' value={this.state.row.user._id} options={this.state.users}/>
         
@@ -81,9 +71,13 @@ export class ActivityDetails extends Component {
                     back={() => this.back()}
                 />
                 <div className="main-content">
-                    <div style={{margin: '20px'}}>
+                    <div style={{margin: '0 60px 0 20px'}}>
                         {this.status}
                         <TextField
+                                style={{
+                                    margin: '10px',
+                                    width: '80%'
+                                }}
                             className="task-manager-title left"
                             id="outlined-name"
                             label="Tarefa"
@@ -102,7 +96,7 @@ export class ActivityDetails extends Component {
                                 id="date"
                                 label="Inicio"
                                 type="date"
-                                defaultValue={new Date()}
+                                defaultValue={this.state.row.task.start}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}

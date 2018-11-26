@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ActionBar } from '../../ActionBar';
 import { BottomActionBar } from '../../BottomActionBar';
-import { MenuCode } from '../../Main';
+import { MenuCode, MainWaiting } from '../../Main';
 import TextField from '@material-ui/core/TextField';
 import { timeout } from '../../../Home';
 import { Req } from '../../../../Components/Request';
@@ -14,7 +14,7 @@ export const TaskMode = {
 export class TaskDetails extends Component {
     constructor({main, row, mode}){
         super()
-        this.fecthData()
+        this.fetchData()
         //expected row = {task: {_id, title, content}}
         this.state = {
             main,
@@ -22,7 +22,7 @@ export class TaskDetails extends Component {
             mode
         }
     }
-    async fecthData(){
+    async fetchData(){
         //GET REQUEST {loginStatus, task: {_id}}
         //expected {task: {_id, title, content, imagePath}}
         
@@ -32,7 +32,9 @@ export class TaskDetails extends Component {
                 _id: this.state.row._id,
                 title: this.state.row.title,
                 content: this.state.row.content,
-                imagePath: 'localhost:3000/image' + this.state.row.id
+                startDate: new Date().toISOString().slice(0, 10),
+                endDate: new Date().toISOString().slice(0, 10),
+                imagePath: '/images/ind3.jpg'//'localhost:3000/image' + this.state.row.id
             }
         }
 
@@ -40,7 +42,8 @@ export class TaskDetails extends Component {
         console.log('Mudou tarefa')
     }
     render(){
-        console.log('TASKDETAILS ', this.state)
+        if(!this.state.row.title || !this.state.row.imagePath || !this.state.row.startDate || !this.state.row.endDate)
+            return <MainWaiting/>
         if(this.state.mode === TaskMode.EDIT)
             return <TaskDetailsEdit setMode={this.setMode.bind(this)} back={() => this.backToMain()} row={this.state.row}/>
         if(this.state.mode === TaskMode.SHOW)
@@ -102,17 +105,50 @@ class TaskDetailsEdit extends Component {
                         </div>
                     </div>
                     <div className="task-right">
-                    
-                            <TextField
-                                ref={e => this.ref.imagePath = e}
-                                className="task-right-element"
-                                id="outlined-name"
-                                label="Link da imagem"
-                                defaultValue={this.state.row.imagePath || ''}
-                                margin="normal"
-                                variant="outlined"
-                                onChange={e => {this.state.row.imagePath = e.target.value}}
-                            />
+                            <div style={{width: '100%', height: '30px', margin: '35px 0 0 0'}}>                    
+                                <TextField
+                                    style={{
+                                        margin: '10px',
+                                        width: '45%',
+                                        float: 'left'
+                                    }}
+                                    onChange={(e) => this.state.row.startDate = e.target.value}
+                                    id="date"
+                                    label="Inicio"
+                                    type="date"
+                                    defaultValue={this.state.row.startDate || '2018-11-26'}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                                <TextField
+                                    style={{
+                                        margin: '10px',
+                                        width: '45%',
+                                        float: 'left'
+                                    }}
+                                    onChange={(e) => this.state.row.endDate = e.target.value}
+                                    id="date"
+                                    label="Fim"
+                                    type="date"
+                                    defaultValue={this.state.row.endDate || '2018-11-26'}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </div>
+                            <div className="task-right-element">
+                                <TextField
+                                    style={{width: '100%'}}
+                                    ref={e => this.ref.imagePath = e}
+                                    id="outlined-name"
+                                    label="Link da imagem"
+                                    defaultValue={this.state.row.imagePath || ''}
+                                    margin="normal"
+                                    variant="outlined"
+                                    onChange={e => {this.state.row.imagePath = e.target.value}}
+                                />
+                            </div>
                     </div>
                     <BottomActionBar actions={this.state.bottomAction}/>
                 </div>
@@ -177,14 +213,22 @@ class TaskDetailsShow extends Component {
                 <div  className="main-content">
                     <div className="task-left">
                         <div className="task-title">
-                            {this.state.row.title || ''}
+                            {this.state.row.title}
                         </div>
                         <div className="task-description">
-                            {this.state.row.content || ''}
+                            {this.state.row.content}
                         </div>
                     </div>
                     <div className="task-right">
-                        <img src={this.state.row.imagePath || ''} className="center-cropped" alt="imagem"></img>
+                        <div className="estimate-field">
+                            Inicio <b>{this.state.row.startDate}</b>   Fim estimado: <b>{this.state.row.startDate}</b>
+                        </div>
+                        <br></br>
+                        <div className="task-image" >
+                            <img 
+                                src={this.state.row.imagePath} 
+                                alt=" Imagem não disponivel."></img>
+                        </div>
                     </div>
                     <BottomActionBar actions={this.state.bottomAction}/>
                 </div>

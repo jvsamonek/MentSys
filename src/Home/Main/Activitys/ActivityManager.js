@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import TextField from '@material-ui/core/TextField';
-import { MenuCode } from '../Main';
+import { MenuCode, MainWaiting } from '../Main';
 import { timeout } from '../../Home';
 
 export class PeopleManager extends Component {
@@ -13,6 +13,7 @@ export class PeopleManager extends Component {
         super()
         this.fetchData()
         this.state = {
+            loading: true,
             row: [],
             main
         }        
@@ -23,6 +24,7 @@ export class PeopleManager extends Component {
 
         await timeout(500)
         const data = {
+            loading: false,
             row: [...Array(10).keys()]
                 .map(n => ({
                     _id: n,
@@ -40,6 +42,10 @@ export class PeopleManager extends Component {
         this.setState(data)
     }
     render(){
+        if(this.state.loading)
+            return <MainWaiting></MainWaiting>
+        if(this.state.row.length === 0)
+            return <MainWaiting message="Não existem atividades no momento." loading={false}></MainWaiting>
         return (
             <div className="main-diff">
                 <ActionBar title={'Central de Atividades'}/>

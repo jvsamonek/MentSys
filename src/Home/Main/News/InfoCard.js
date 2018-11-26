@@ -5,7 +5,7 @@ export class InfoCard extends React.Component {
   render() {
     return (      
         <CardM className="info-card ">
-            {[...Array(7).keys()].map(n => <BarInfo value={0 | Math.random()* 100}/>)}
+            {[...Array(10).keys()].map(n => <BarInfo value={0 | Math.random()* 100}/>)}
         </CardM>
     )
   }

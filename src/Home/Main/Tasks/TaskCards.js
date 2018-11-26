@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ActionBar } from '../ActionBar'
 import { Card } from './Cards/Card'
-import { MenuCode } from '../Main';
+import { MenuCode, MainWaiting } from '../Main';
 import { TaskMode } from './Task/TaskDetails';
 import { timeout } from '../../Home';
 
@@ -10,6 +10,7 @@ export class TaskCards extends Component {
         super()
         this.fecthData()
         this.state = {
+            loading: true,
             main,
             row: [],
             actions: [
@@ -23,6 +24,7 @@ export class TaskCards extends Component {
         
         await timeout(500)
         const data = {
+            loading: false,
             row: [...Array(20).keys()]
                 .map(n => ({
                     _id: n,
@@ -34,6 +36,10 @@ export class TaskCards extends Component {
         this.setState(data)
     }
     render(){
+        if(this.state.loading)
+            return <MainWaiting></MainWaiting>
+        if(this.state.row.length === 0)
+            return <MainWaiting message="Não existem tarefas no momento." loading={false} ></MainWaiting>
         return (
             <div className="main-diff">
                 <ActionBar title={'Tarefas Ativas'} actions={this.state.actions}/>

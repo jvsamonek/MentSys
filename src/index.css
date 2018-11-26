@@ -118,30 +118,45 @@ html, body, #root, #root>div {
 .task-left {
     float: left;
     width: 50%;
-    height: 95%;
+    height: calc(100% - 48px);
 
     word-break: break-all;
 }
 .task-description {
-    margin: 30px;
+    margin: 5%;
     height: 70%;
-    width: 100%;
+    width: 90%;
 }
+.task-right-element {
+    width: 95%;
+    margin:76px 0 0 0;
+}
+
 .task-right{
     float: right;
     width: 50%;
-    display:flex;
+    height: clc(100% - 96px);
+}
+.estimate-field {
+    height: 40px;
+    width: 80%;
+    margin: 40px;
 
-    height: 95%;
+    background-color: white;
+    font-family: Arial, sans-serif;
+    border-radius: 10px;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.task-image {
+    height: 400px;
+    width: 80%;
+    margin: 0 auto;
     
-    display: grid;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
-.task-right-element {    
-    justify-self: center;
-    align-self: center
-}
-
 .center-cropped {
     margin:auto;
 
@@ -182,8 +197,10 @@ html, body, #root, #root>div {
 }
 .info-card {
     width: calc(100% - 40px);
-    min-height: 250px;
+    height: 240px;
     margin: 10px auto;
+    position: relative;
+    overflow: inherit;
 }
 .info-bar {
     background-color: rgb(196, 196, 196);
@@ -202,7 +219,6 @@ html, body, #root, #root>div {
     width: 100%;
 }
 .info-bar-value {
-
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
@@ -222,4 +238,15 @@ html, body, #root, #root>div {
     position: absolute;
     bottom: 0;
     left: 20%;
+}
+
+b {
+    margin: 0 10px 0 10px;
+}
+.center-message {    
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
 }

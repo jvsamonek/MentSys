@@ -6,12 +6,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import TextField from '@material-ui/core/TextField';
 import { timeout } from '../../Home';
+import { MainWaiting } from '../Main';
 
 export class AlertManager extends Component {
     constructor(){
         super()
         this.fetchDta()
         this.state = {
+            loading: true,
             row: []
         }        
     }
@@ -21,6 +23,7 @@ export class AlertManager extends Component {
         
         await timeout(500)
         const data = {
+            loading: false,
             row: 
                 [...Array(0 | (5 + Math.random() * 10)).keys()]
                     .map(n => ({
@@ -37,6 +40,10 @@ export class AlertManager extends Component {
         this.setState(data)
     }
     render(){
+        if(this.state.loading)
+            return <MainWaiting></MainWaiting>
+        if(this.state.row.length === 0)
+            return <MainWaiting message="Não existem alertas no momento." loading={false}></MainWaiting>
         return (
             <div className="main-diff">
                 <ActionBar title={'Central de Alertas'}/>

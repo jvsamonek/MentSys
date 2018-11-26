@@ -8,6 +8,8 @@ import { News } from './News/News';
 import { ActivityDetails } from './Activitys/ActivityDetails';
 import { AlertManager } from './Alerts/AlertManager';
 import { UserStatus } from './Status/UserStatus';
+import { ActionBar } from './ActionBar';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export const MenuCode = {
     NEWS: 1,
@@ -62,5 +64,27 @@ export class Main extends Component {
             default: 
                 return <div>Error</div>
         }
+    }
+}
+
+export class MainWaiting extends Component{
+    constructor({ message, loading = true}){
+        super()
+        this.state = {
+            message: message || 'Carregando',
+            loading
+        }
+    }
+    render(){        
+        return (
+        <div className="main-diff">
+            <ActionBar/>
+            <div className="main-content center-message">
+                {this.state.loading && <CircularProgress/>}
+                <div style={{margin: '20px'}}>
+                    {this.state.message}
+                </div>
+            </div>
+        </div>)
     }
 }
