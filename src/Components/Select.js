@@ -26,9 +26,10 @@ const styles = theme => ({
 });
 
 class SimpleSelect extends React.Component {
-  constructor({value, options}){
+  constructor({title, value, options}){
     super()
     this.state = {
+      title,
       age: value,
       name: 'hai',
       labelWidth: 0,
@@ -51,14 +52,17 @@ class SimpleSelect extends React.Component {
 
     return (
       <form className={classes.root} autoComplete="off">        
-        <FormControl variant="outlined" className={classes.formControl}>
+        <FormControl 
+            style={{width: '80%'}} 
+            variant="outlined" 
+            className={classes.formControl}>
           <InputLabel
             ref={ref => {
               this.InputLabelRef = ref;
             }}
             htmlFor="outlined-age-simple"
           >
-            Age
+            {this.state.title}
           </InputLabel>
           <SelectUI
             value={this.state.age}

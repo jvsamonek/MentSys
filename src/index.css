@@ -185,7 +185,7 @@ html, body, #root, #root>div {
     min-height: 250px;
     margin: 10px auto;
 }
-.info-bar {    
+.info-bar {
     background-color: rgb(196, 196, 196);
     height: 200px;
     margin: 15px;

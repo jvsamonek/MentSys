@@ -15,11 +15,7 @@ export class ActivityDetails extends Component {
         this.state = {
             main,
             row,
-            status: [
-                {_id: 0, name: 'ANTES'},
-                {_id: 1, name: 'ANTES'},
-                {_id: 2, name: 'ANTES'}
-            ],
+            status: [],
             users: [],
             bottomAction: [
                 {name: 'Salvar', action: () => this.saveTask()}
@@ -44,8 +40,8 @@ export class ActivityDetails extends Component {
                 task: {
                     _id: 33, 
                     title: 'titulo',
-                    startDate: new Date().toLocaleDateString(),
-                    endDate: new Date().toLocaleDateString()
+                    startDate: new Date().toISOString().slice(0, 10),
+                    endDate: new Date().toISOString().slice(0, 10)
                 }, 
                 user: {
                     _id: 1
@@ -62,11 +58,20 @@ export class ActivityDetails extends Component {
                 {_id: 2, name: 'Amanda'},
             ]
         }
-        debugger
-        //this.status._self.setState({value: data.row.status._id, options: data.status})
         this.setState(data)
     }
     render(){
+        if(this.state.status.length === 0 || this.state.users.length === 0)
+            return (
+                <div className="main-diff">
+                    <ActionBar title="Propriedades da Atividade"
+                        back={() => this.back()}
+                    />
+                    <div className="main-content">
+                        <BottomActionBar actions={this.state.bottomAction}/>
+                    </div>
+                </div>
+            )
         this.status = <Select className="left" title='Status' value={this.state.row.status._id} options={this.state.status}/>
         this.user = <Select className="left" title='Responsavel' value={this.state.row.user._id} options={this.state.users}/>
         
@@ -77,6 +82,7 @@ export class ActivityDetails extends Component {
                 />
                 <div className="main-content">
                     <div style={{margin: '20px'}}>
+                        {this.status}
                         <TextField
                             className="task-manager-title left"
                             id="outlined-name"
@@ -86,7 +92,6 @@ export class ActivityDetails extends Component {
                             variant="outlined"
                             onChange={e => {this.state.row.task.title = e.target.value}}
                         />
-                        {this.status}
                         <div>
                             <TextField
                                 style={{
@@ -97,7 +102,7 @@ export class ActivityDetails extends Component {
                                 id="date"
                                 label="Inicio"
                                 type="date"
-                                defaultValue={this.state.row.task.start}
+                                defaultValue={new Date()}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
