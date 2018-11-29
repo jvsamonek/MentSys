@@ -14,6 +14,7 @@ import Dialog from '@material-ui/core/Dialog';
 import blue from '@material-ui/core/colors/blue';
 import TextField from '@material-ui/core/TextField';
 import { Req } from '../../Components/Request';
+import { setLoginStatus, getLoginStatus } from '../../Components/LoginStatus';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const styles = {
@@ -40,16 +41,13 @@ class SimpleDialog extends React.Component {
   makeLogin = async () => {
     //POST REQUEST {loginStatus}
     //expected {success: true | false, user: {name, email}}
-
-    const data = {
-      succes: true,
-      user: {
-        name: 'Guilherme',
-        email: 'email@email.com'
-      }
+    const loginStatus = {
+      email: this.state.row.email,
+      password: this.state.row.password
     }
-
-    if(data.succes){
+    const data = await Req.post('/login', {loginStatus})
+    if(data.success){
+      
       localStorage.setItem('loginStatus', JSON.stringify(data.user))
       // eslint-disable-next-line no-restricted-globals
       location.reload()
@@ -131,7 +129,7 @@ class SimpleDialogDemo extends React.Component {
   };
 
   render() {
-    const loginStatus = JSON.parse(localStorage.getItem('loginStatus'))
+    const loginStatus = getLoginStatus()
     let content
     if(loginStatus)
         content = <Button onClick={this.logout}>{loginStatus.name} - DESCONECTAR</Button>
@@ -149,17 +147,18 @@ class SimpleDialogDemo extends React.Component {
       </div>
     );
   }
-  logout = () => {
+  logout = async () => {
     //POST REQUEST {loginStatus}
     //expected {success: true | false}
-
-    const data = {
-      success: true
-    }
-
+    const loginStatus = getLoginStatus()
+    
+    const data = await Req.post('/logoff', loginStatus)
+    
     if(data.success){
       alert("Você foi desconectado.")
-      localStorage.setItem('loginStatus', null)
+      
+      console.log()
+      setLoginStatus(data.user)
       // eslint-disable-next-line no-restricted-globals
       location.reload()
     }

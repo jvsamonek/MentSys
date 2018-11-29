@@ -55,7 +55,7 @@ app.post('/login', async (request, response) => {
         if (usuario.length > 0 && !usuario[0].logged) {
             usuario[0].logged = true;
             await usuario[0].save();
-            response.send({ success: true });
+            response.send({ success: true, user: usuario[0] });
         }
         else {
             throw new Error('Erro 1');
