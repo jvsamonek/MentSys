@@ -17,6 +17,7 @@ export class TaskDetails extends Component {
         this.fetchData()
         //expected row = {task: {_id, title, content}}
         this.state = {
+            loading: true,
             main,
             row,
             mode
@@ -28,10 +29,11 @@ export class TaskDetails extends Component {
         
         await timeout(500)
         const data = {
+            loading: false,
             row: {
-                _id: this.state.row._id,
-                title: this.state.row.title,
-                content: this.state.row.content,
+                _id: this.state.row._id || 0,
+                title: this.state.row.title || 'Novo titulo',
+                content: this.state.row.content || 'Novo content',
                 startDate: new Date().toISOString().slice(0, 10),
                 endDate: new Date().toISOString().slice(0, 10),
                 imagePath: '/images/ind3.jpg'//'localhost:3000/image' + this.state.row.id
@@ -39,10 +41,9 @@ export class TaskDetails extends Component {
         }
 
         this.setState(data)
-        console.log('Mudou tarefa')
     }
     render(){
-        if(!this.state.row.title || !this.state.row.imagePath || !this.state.row.startDate || !this.state.row.endDate)
+        if(this.state.loading)
             return <MainWaiting/>
         if(this.state.mode === TaskMode.EDIT)
             return <TaskDetailsEdit setMode={this.setMode.bind(this)} back={() => this.backToMain()} row={this.state.row}/>

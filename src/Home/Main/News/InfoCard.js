@@ -2,38 +2,43 @@ import React, {Component} from 'react';
 import CardM from '@material-ui/core/Card';
 
 export class InfoCard extends React.Component {
-  render() {
-    return (      
-        <CardM className="info-card ">
-            {[...Array(10).keys()].map(n => <BarInfo value={0 | Math.random()* 100}/>)}
-        </CardM>
-    )
-  }
+    constructor({ bars }){
+        super()
+        this.state = {
+            bars
+        }
+    }
+
+    render() {
+        return (      
+            <CardM className="info-card">
+                {this.state.bars.map(b => <BarInfo name ={b.name} value={b.value}/>)}
+            </CardM>
+        )
+    }
 }
 
 class BarInfo extends Component{
-    constructor({ value }){
+    constructor({ value, name }){
         super()
         this.state = {
-            row: {
-                name: 'Tarefas Pendentes',
-                value
-            }
+            name,
+            value
         }
     }
     render(){
         return (
             <div className="info-bar">
                     <div className="info-bar-value">
-                        {this.state.row.value}
+                        {this.state.value}
                     </div>
                 <div className="info-bar-status"
                     style={{
-                        height: this.state.row.value + '%'
+                        height: this.state.value + '%'
                     }}
                 >
                     <div className='info-bar-title'>
-                        Tarefas
+                        {this.state.name}
                     </div>
                 </div>                
             </div>

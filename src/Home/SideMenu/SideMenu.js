@@ -9,17 +9,38 @@ import { MenuCode } from '../Main/Main';
 export class SideMenu extends Component{
     constructor({home}){
         super()
+        const optionsData = [
+            {nome: 'Novidades', menuCode: MenuCode.NEWS},
+            {nome: 'Tarefas', menuCode: MenuCode.TASK_LIST},
+            {nome: 'Atividades', menuCode: MenuCode.PEOPLE_LIST},
+            {nome: 'Alertas', menuCode: MenuCode.ALERT_LIST},
+            {nome: 'Status', menuCode: MenuCode.STATUS},
+        ]
         this.state = {
-            options: [
-                {nome: 'Novidades', menuCode: MenuCode.NEWS},
-                {nome: 'Tarefas', menuCode: MenuCode.TASK_LIST},
-                {nome: 'Atividades', menuCode: MenuCode.PEOPLE_LIST},
-                {nome: 'Alertas', menuCode: MenuCode.ALERT_LIST},
-                {nome: 'Status', menuCode: MenuCode.STATUS},
-            ]
-                .map(o => <MenuOption home={home} name={o.nome} menuCode={o.menuCode}/>),
-            home
+            optionsData,
+            home,
+            options: optionsData
+                .map(o => 
+                    <MenuOption 
+                        selectOption={() => this.selectOption(o.menuCode)} 
+                        name={o.nome} 
+                        menuCode={o.menuCode}
+                        selected={false}
+                />)
         }
+    }
+    selectOption(menuCode){
+        /*const options = this.state.optionsData
+        .map(o => 
+            <MenuOption 
+                selectOption={() => this.selectOption(o.menuCode)} 
+                name={o.nome} 
+                menuCode={o.menuCode}
+                selected={true}
+        />)
+        this.setState({options})*/
+        if(this.state.home.main)
+            this.state.home.main.setContent(menuCode)
     }
     render(){
         return (
@@ -34,27 +55,28 @@ export class SideMenu extends Component{
 }
 
 class MenuOption extends Component{
-    constructor({ home, name, menuCode }){
+    constructor({ selectOption, name, menuCode, selected }){
         super()
         this.state = {
-            home,
+            selectOption,
             name,
-            menuCode
+            menuCode,
+            selected
         }
     }
     render(){
         return (
-            <div onClick={() => this.selectMenu()}>
-                <ListItem button>
+            <div onClick={this.state.selectOption}>
+                <ListItem 
+                    button
+                    selected={this.state.selected}
+                    >
                     <ListItemIcon>
                     </ListItemIcon>
                     <ListItemText primary={this.state.name} />
                 </ListItem>
-                <Divider />
+                <Divider/>
             </div>
         )
-    }    
-    selectMenu(){
-        this.state.home.main.setContent(this.state.menuCode)
     }
 }

@@ -92,11 +92,11 @@ export class ActivityDetails extends Component {
                                     margin: '10px',
                                     width: '38%'
                                 }}
-                                onChange={(e) => this.state.row.task.start = e.target.value}
+                                onChange={(e) => this.state.row.task.startDate = e.target.value}
                                 id="date"
                                 label="Inicio"
                                 type="date"
-                                defaultValue={this.state.row.task.start}
+                                defaultValue={this.state.row.task.startDate}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -106,11 +106,11 @@ export class ActivityDetails extends Component {
                                     margin: '10px',
                                     width: '38%'
                                 }}
-                                onChange={(e) => this.state.row.task.end = e.target.value}
+                                onChange={(e) => this.state.row.task.endDate = e.target.value}
                                 id="date"
                                 label="Fim"
                                 type="date"
-                                defaultValue={this.state.row.task.start}
+                                defaultValue={this.state.row.task.endDate}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}

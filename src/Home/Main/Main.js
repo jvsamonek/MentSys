@@ -33,7 +33,6 @@ export class Main extends Component {
         }
     }
     render(){
-        console.log('MAIN', this.state.options,this.state.options)
         return (
             <Grid className="main-container right bounceInLeft" ref="main">
                 <div className="main">

@@ -14,7 +14,7 @@ export class TaskCards extends Component {
             main,
             row: [],
             actions: [
-                {name: 'Criar tarefa', action: () => this.criarTarefa()}
+                {name: 'Criar tarefa', action: () => this.createTask()}
             ]
         }
     }
@@ -51,10 +51,10 @@ export class TaskCards extends Component {
             </div>
         )
     }
-    criarTarefa(){
+    createTask(){
         this.state.main.setContent(
             MenuCode.TASK_DETAILS,
-            {_id: 0},
+            {},
             {mode: TaskMode.EDIT}
         )
     }
