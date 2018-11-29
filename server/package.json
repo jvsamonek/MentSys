@@ -1,0 +1,19 @@
+{
+  "name": "mentsys",
+  "version": "0.1.0",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.14"
+  },
+  "scripts": {
+    "start": "node dist/main",
+    "build": "tsc --build",
+    "watch": "tsc --watch"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/mongoose": "^5.3.1",
+    "typescript": "^3.1.6"
+  }
+}
