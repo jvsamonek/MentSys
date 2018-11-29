@@ -123,7 +123,7 @@
             throw new Error('Não existe essa Projeto')
         projects[0].title = frontProject.title
         projects[0].description = frontProject.description
-        projects[0].image_path = frontProject.image_path
+        projects[0].imagePath = frontProject.imagePath
         await projects[0].save()
         response.send({success: true})
       }catch(err){
@@ -184,7 +184,7 @@
     //pegar dados do mongo
     try{    
         let loggedUser = await User.find({  email : loginStatus.email }).exec()
-        let tarefas = await Tarefa.find({ user_id: loggedUser[0]._id }).exec()
+        let tarefas = await Tarefa.find({ userId: loggedUser[0]._id }).exec()
         response.send({success: true, tarefas})
     }catch(err){
         console.log(err)
@@ -240,7 +240,7 @@
     const input = JSON.parse(request.query.json || '')
     const frontEmail = input.loginStatus.email
     const UserID = await User.find({email: frontEmail}).exec()
-    const alertas = await Alerta.find({user_id: UserID[0]._id}).exec()
+    const alertas = await Alerta.find({userId: UserID[0]._id}).exec()
     //processar
     try{    
         if(alertas.length == 0)
@@ -261,10 +261,10 @@
     const taskRequest = input.activity._id
     try{   
         let usuario:any = await User.find({email: loginEmail}).exec() 
-        let tasks:any = await Tarefa.find({_id: taskRequest, user_id: usuario[0]._id}).exec()
+        let tasks:any = await Tarefa.find({_id: taskRequest, userId: usuario[0]._id}).exec()
         if(tasks.length > 0){
-            let project = await Projeto.find({_id: tasks[0].projeto_id})
-            let status = await Status.find({_id: tasks[0].status_id})
+            let project = await Projeto.find({_id: tasks[0].projetoId})
+            let status = await Status.find({_id: tasks[0].statusId})
             let activity = { _id: tasks[0]._id, status: status[0], task: project[0], user: {_id: usuario[0]._id}}
             response.send({success: true, activity})
         }else{
@@ -286,7 +286,7 @@
     const loginEmail = input.loginStatus.email  
     try{   
         let usuario:any = await User.find({email: loginEmail}).exec() 
-        let tasks:any = await Tarefa.find({user_id: usuario[0]._id}).exec()
+        let tasks:any = await Tarefa.find({userId: usuario[0]._id}).exec()
         if(tasks.length > 0){
             response.send({success: true, tasks})
         }else{
@@ -302,14 +302,14 @@
         //expected {bars: [{name, value}, ...]}
         //Informações das barras de novidades da tela inicial…
         //Pode ser número de tarefas, atividades, alertas
-  app.get('/tarefasUsuario', async (request, response) => {
+  app.get('/barras', async (request, response) => {
     const input = JSON.parse(request.query.json || '')
     const loginEmail = input.loginStatus.email  
     try{   
         let usuario:any = await User.find({email: loginEmail}).exec() 
-        let tasks:any = await Tarefa.find({user_id: usuario[0]._id}).exec()
+        let tasks:any = await Tarefa.find({userId: usuario[0]._id}).exec()
         let projects:any = await Projeto.find().exec()
-        let alerts:any = await Alerta.find({user_id: usuario[0]._id}).exec()
+        let alerts:any = await Alerta.find({userId: usuario[0]._id}).exec()
         let bars: { name: string, value: number }[] = [
             { "name": "Tarefas", "value":  tasks.length},
             { "name": "Projetos", "value":  projects.length},

@@ -114,7 +114,7 @@ app.post('/salvarProjeto', async (request, response) => {
             throw new Error('Não existe essa Projeto');
         projects[0].title = frontProject.title;
         projects[0].description = frontProject.description;
-        projects[0].image_path = frontProject.image_path;
+        projects[0].imagePath = frontProject.imagePath;
         await projects[0].save();
         response.send({ success: true });
     }
@@ -169,7 +169,7 @@ app.get('tarefasUsuario', async (request, response) => {
     //pegar dados do mongo
     try {
         let loggedUser = await User_1.User.find({ email: loginStatus.email }).exec();
-        let tarefas = await Tarefa_1.Tarefa.find({ user_id: loggedUser[0]._id }).exec();
+        let tarefas = await Tarefa_1.Tarefa.find({ userId: loggedUser[0]._id }).exec();
         response.send({ success: true, tarefas });
     }
     catch (err) {
@@ -219,7 +219,7 @@ app.get('/alertasUsuario', async (request, response) => {
     const input = JSON.parse(request.query.json || '');
     const frontEmail = input.loginStatus.email;
     const UserID = await User_1.User.find({ email: frontEmail }).exec();
-    const alertas = await Alerta_1.Alerta.find({ user_id: UserID[0]._id }).exec();
+    const alertas = await Alerta_1.Alerta.find({ userId: UserID[0]._id }).exec();
     //processar
     try {
         if (alertas.length == 0)
@@ -240,10 +240,10 @@ app.get('/tarefaEspecifica', async (request, response) => {
     const taskRequest = input.activity._id;
     try {
         let usuario = await User_1.User.find({ email: loginEmail }).exec();
-        let tasks = await Tarefa_1.Tarefa.find({ _id: taskRequest, user_id: usuario[0]._id }).exec();
+        let tasks = await Tarefa_1.Tarefa.find({ _id: taskRequest, userId: usuario[0]._id }).exec();
         if (tasks.length > 0) {
-            let project = await Projeto_1.Projeto.find({ _id: tasks[0].projeto_id });
-            let status = await Status_1.Status.find({ _id: tasks[0].status_id });
+            let project = await Projeto_1.Projeto.find({ _id: tasks[0].projetoId });
+            let status = await Status_1.Status.find({ _id: tasks[0].statusId });
             let activity = { _id: tasks[0]._id, status: status[0], task: project[0], user: { _id: usuario[0]._id } };
             response.send({ success: true, activity });
         }
@@ -263,7 +263,7 @@ app.get('/tarefasUsuario', async (request, response) => {
     const loginEmail = input.loginStatus.email;
     try {
         let usuario = await User_1.User.find({ email: loginEmail }).exec();
-        let tasks = await Tarefa_1.Tarefa.find({ user_id: usuario[0]._id }).exec();
+        let tasks = await Tarefa_1.Tarefa.find({ userId: usuario[0]._id }).exec();
         if (tasks.length > 0) {
             response.send({ success: true, tasks });
         }
@@ -279,14 +279,14 @@ app.get('/tarefasUsuario', async (request, response) => {
 //expected {bars: [{name, value}, ...]}
 //Informações das barras de novidades da tela inicial…
 //Pode ser número de tarefas, atividades, alertas
-app.get('/tarefasUsuario', async (request, response) => {
+app.get('/barras', async (request, response) => {
     const input = JSON.parse(request.query.json || '');
     const loginEmail = input.loginStatus.email;
     try {
         let usuario = await User_1.User.find({ email: loginEmail }).exec();
-        let tasks = await Tarefa_1.Tarefa.find({ user_id: usuario[0]._id }).exec();
+        let tasks = await Tarefa_1.Tarefa.find({ userId: usuario[0]._id }).exec();
         let projects = await Projeto_1.Projeto.find().exec();
-        let alerts = await Alerta_1.Alerta.find({ user_id: usuario[0]._id }).exec();
+        let alerts = await Alerta_1.Alerta.find({ userId: usuario[0]._id }).exec();
         let bars = [
             { "name": "Tarefas", "value": tasks.length },
             { "name": "Projetos", "value": projects.length },
