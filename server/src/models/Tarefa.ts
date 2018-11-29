@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 var TarefaSchema = new mongoose.Schema({
   statusId: {type: mongoose.Schema.Types.ObjectId, ref: 'Status'},
-  titulo: String,
+  title: String,
   startDate: Date,
   endDate: Date,
   userId: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],

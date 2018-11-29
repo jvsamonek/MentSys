@@ -102,6 +102,28 @@ app.post('/salvarUsuario', async (request, response) => {
         response.send({ success: false });
     }
 });
+//POST REQUEST {loginStatus, activity: {_id, status: {_id}, task: {_id, startDate, endDate}, user: {_id}}}
+//expected {success: true | false}
+//Salvar informações de uma tarefa
+app.post('/salvarTarefa', async (request, response) => {
+    const frontId = request.body.activity._id;
+    try {
+        let tarefas = await User_1.User.find({ _id: frontId }).exec();
+        if (tarefas.length == 0)
+            throw new Error('Não existe essa tarefa');
+        tarefas[0].statusId = request.body.activity.statusId;
+        tarefas[0].title = request.body.activity.title;
+        tarefas[0].startDate = request.body.activity.task.startDate;
+        tarefas[0].endDate = request.body.activity.task.endDate;
+        tarefas[0].imagePath = request.body.activity.task.imagePath;
+        await tarefas[0].save();
+        response.send({ success: true });
+    }
+    catch (err) {
+        console.log(err);
+        response.send({ success: false });
+    }
+});
 //POST REQUEST {loginStatus, task: {_id, title, content, imagePath}}
 //expected {success: true | false}
 //Salvar informações de uma tarefa especifica
