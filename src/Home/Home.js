@@ -5,7 +5,6 @@ import { Main } from './Main/Main';
 
 export class Home extends Component { 
   render() {
-    this.main = {}
     return (
       <div>
         <div>

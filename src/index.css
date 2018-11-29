@@ -199,8 +199,10 @@ html, body, #root, #root>div {
     width: calc(100% - 40px);
     height: 240px;
     margin: 10px auto;
-    position: relative;
-    overflow: inherit;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .info-bar {
     background-color: rgb(196, 196, 196);
@@ -213,6 +215,7 @@ html, body, #root, #root>div {
     float: left;
 }
 .info-bar-status {
+    z-index: 1;
     background-color: rgb(63, 81, 181);
     position: absolute;
     bottom: 0;
@@ -223,7 +226,7 @@ html, body, #root, #root>div {
     display: flex;
     justify-content: center;
     align-items: center;
-
+    z-index: 5;
     color: white;
     font-size: 50px;
 }
