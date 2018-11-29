@@ -19,7 +19,7 @@ app.use(body_parser_1.default.urlencoded({
 const User_1 = require("./models/User");
 const Projeto_1 = require("./models/Projeto");
 const Alerta_1 = require("./models/Alerta");
-const Atividade_1 = require("./models/Atividade");
+const Tarefa_1 = require("./models/Tarefa");
 const Status_1 = require("./models/Status");
 //POST REQUEST {loginStatus}
 //expected {success: true | false}
@@ -111,7 +111,7 @@ app.post('/salvarProjeto', async (request, response) => {
         let projects = await Projeto_1.Projeto.find({ _id: frontProject._id }).exec();
         console.log(projects);
         if (projects.length == 0)
-            throw new Error('Não existe essa atividade');
+            throw new Error('Não existe essa Projeto');
         projects[0].title = frontProject.title;
         projects[0].description = frontProject.description;
         projects[0].image_path = frontProject.image_path;
@@ -162,15 +162,15 @@ app.get('/infoUsuario', async (request, response) => {
 });
 //GET REQUEST {loginStatus}
 //expected [{_id, status: {name}, task: {title}, user: {name}}]
-//- Lista com todas as atividades associadas ao usuário logado
-app.get('/atividadesUsuario', async (request, response) => {
+//- Lista com todas as tarefa associadas ao usuário logado
+app.get('tarefasUsuario', async (request, response) => {
     const input = JSON.parse(request.query.json || '');
     const loginStatus = input.loginStatus; //task== {id: 321}
     //pegar dados do mongo
     try {
         let loggedUser = await User_1.User.find({ email: loginStatus.email }).exec();
-        let atividades = await Atividade_1.Atividade.find({ user_id: loggedUser[0]._id }).exec();
-        response.send({ success: true, atividades });
+        let tarefas = await Tarefa_1.Tarefa.find({ user_id: loggedUser[0]._id }).exec();
+        response.send({ success: true, tarefas });
     }
     catch (err) {
         console.log(err);
@@ -201,7 +201,7 @@ app.get('/todosUsuarios', async (request, response) => {
 });
 //GET REQUEST {}
 //expected {status: [{_id, name}, ...]}
-//- Lista de todos os status possíveis para uma atividade
+//- Lista de todos os status possíveis para uma tarefa
 app.get('/todosStatus', async (request, response) => {
     const allStatus = await Status_1.Status.find().exec();
     //processar
@@ -213,7 +213,7 @@ app.get('/todosStatus', async (request, response) => {
 //GET REQUEST {loginStatus}
 //expected {alerts: [{reason, task: {_id, name}, status: {name},...]}
 //Lista com todos os alertas de um usuário logado
-//Um alerta é gerado a partir de atividades que tem algum problema, por exemplo estão com prazo próximo do limite ou já passou do limite.
+//Um alerta é gerado a partir de tarefas que tem algum problema, por exemplo estão com prazo próximo do limite ou já passou do limite.
 //Da pra criar mais algumas condições pra gerar esses alertas
 app.get('/alertasUsuario', async (request, response) => {
     const input = JSON.parse(request.query.json || '');
@@ -233,18 +233,18 @@ app.get('/alertasUsuario', async (request, response) => {
 });
 //GET REQUEST {loginSatus, activity: {_id}}
 //expected {activity: {_id, status: {_id}, task: {_id, title, startDate, endDate}, user: {_id}}}
-//-Uma atividade é a atribuição de um tarefa especifica a um usuário. Tem como atributos status que representa o estado atual
-app.get('/atividadeEspecifica', async (request, response) => {
+//-Uma tarefa é a atribuição de um tarefa especifica a um usuário. Tem como atributos status que representa o estado atual
+app.get('/tarefaEspecifica', async (request, response) => {
     const input = JSON.parse(request.query.json || '');
     const loginEmail = input.loginStatus.email;
-    const activityRequest = input.activity._id;
+    const taskRequest = input.activity._id;
     try {
         let usuario = await User_1.User.find({ email: loginEmail }).exec();
-        let activities = await Atividade_1.Atividade.find({ _id: activityRequest, user_id: usuario[0]._id }).exec();
-        if (activities.length > 0) {
-            let project = await Projeto_1.Projeto.find({ _id: activities[0].projeto_id });
-            let status = await Status_1.Status.find({ _id: activities[0].status_id });
-            let activity = { _id: activities[0]._id, status: status[0], task: project[0], user: { _id: usuario[0]._id } };
+        let tasks = await Tarefa_1.Tarefa.find({ _id: taskRequest, user_id: usuario[0]._id }).exec();
+        if (tasks.length > 0) {
+            let project = await Projeto_1.Projeto.find({ _id: tasks[0].projeto_id });
+            let status = await Status_1.Status.find({ _id: tasks[0].status_id });
+            let activity = { _id: tasks[0]._id, status: status[0], task: project[0], user: { _id: usuario[0]._id } };
             response.send({ success: true, activity });
         }
         else {
@@ -257,22 +257,42 @@ app.get('/atividadeEspecifica', async (request, response) => {
 });
 //GET REQUEST {loginStatus}
 //expected [{_id, status: {name}, task: {title}, user: {name}}]
-//Lista com todas as atividades associadas ao usuário logado
-app.get('/atividadesUsuario', async (request, response) => {
+//Lista com todas as tarefas associadas ao usuário logado
+app.get('/tarefasUsuario', async (request, response) => {
     const input = JSON.parse(request.query.json || '');
     const loginEmail = input.loginStatus.email;
     try {
         let usuario = await User_1.User.find({ email: loginEmail }).exec();
-        let activities = await Atividade_1.Atividade.find({ user_id: usuario[0]._id }).exec();
-        if (activities.length > 0) {
-            //let project = await Projeto.find({_id: activities[0].projeto_id})
-            //let status = await Status.find({_id: activities[0].status_id})
-            //let activity = { _id: activities[0]._id, status: status[0], task: project[0], user: {_id: usuario[0]._id}}
-            response.send({ success: true, activities });
+        let tasks = await Tarefa_1.Tarefa.find({ user_id: usuario[0]._id }).exec();
+        if (tasks.length > 0) {
+            response.send({ success: true, tasks });
         }
         else {
             throw new Error('Erro 1');
         }
+    }
+    catch (err) {
+        response.send({ success: false });
+    }
+});
+//GET REQUEST {loginStatus}
+//expected {bars: [{name, value}, ...]}
+//Informações das barras de novidades da tela inicial…
+//Pode ser número de tarefas, atividades, alertas
+app.get('/tarefasUsuario', async (request, response) => {
+    const input = JSON.parse(request.query.json || '');
+    const loginEmail = input.loginStatus.email;
+    try {
+        let usuario = await User_1.User.find({ email: loginEmail }).exec();
+        let tasks = await Tarefa_1.Tarefa.find({ user_id: usuario[0]._id }).exec();
+        let projects = await Projeto_1.Projeto.find().exec();
+        let alerts = await Alerta_1.Alerta.find({ user_id: usuario[0]._id }).exec();
+        let bars = [
+            { "name": "Tarefas", "value": tasks.length },
+            { "name": "Projetos", "value": projects.length },
+            { "name": "Alertas", "value": alerts.length }
+        ];
+        response.send({ success: true, bars });
     }
     catch (err) {
         response.send({ success: false });

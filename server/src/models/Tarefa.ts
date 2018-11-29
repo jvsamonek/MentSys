@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-var AtividadeSchema = new mongoose.Schema({
+var TarefaSchema = new mongoose.Schema({
   status_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Status'},
   titulo: String,
   start_date: Date,
@@ -9,4 +9,4 @@ var AtividadeSchema = new mongoose.Schema({
   projeto_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Projeto'},
 });
 
-export const Atividade = mongoose.model('Atividade', AtividadeSchema );
+export const Tarefa = mongoose.model('Tarefa', TarefaSchema );

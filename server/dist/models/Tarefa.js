@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-var AtividadeSchema = new mongoose_1.default.Schema({
+var TarefaSchema = new mongoose_1.default.Schema({
     status_id: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Status' },
     titulo: String,
     start_date: Date,
@@ -12,4 +12,4 @@ var AtividadeSchema = new mongoose_1.default.Schema({
     user_id: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: 'User' }],
     projeto_id: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Projeto' },
 });
-exports.Atividade = mongoose_1.default.model('Atividade', AtividadeSchema);
+exports.Tarefa = mongoose_1.default.model('Tarefa', TarefaSchema);
