@@ -11,8 +11,8 @@ export class SideMenu extends Component{
         super()
         const optionsData = [
             {nome: 'Novidades', menuCode: MenuCode.NEWS},
-            {nome: 'Tarefas', menuCode: MenuCode.TASK_LIST},
-            {nome: 'Atividades', menuCode: MenuCode.PEOPLE_LIST},
+            {nome: 'Projetos', menuCode: MenuCode.TASK_LIST},
+            {nome: 'Tarefas', menuCode: MenuCode.PEOPLE_LIST},
             {nome: 'Alertas', menuCode: MenuCode.ALERT_LIST},
             {nome: 'Status', menuCode: MenuCode.STATUS},
         ]

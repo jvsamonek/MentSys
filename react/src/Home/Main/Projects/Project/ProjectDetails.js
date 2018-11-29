@@ -11,7 +11,7 @@ export const TaskMode = {
     EDIT: 2
 }
 
-export class TaskDetails extends Component {
+export class ProjectDetails extends Component {
     constructor({main, row, mode}){
         super()
         this.fetchData()
@@ -46,9 +46,9 @@ export class TaskDetails extends Component {
         if(this.state.loading)
             return <MainWaiting/>
         if(this.state.mode === TaskMode.EDIT)
-            return <TaskDetailsEdit setMode={this.setMode.bind(this)} back={() => this.backToMain()} row={this.state.row}/>
+            return <ProjectDetailsEdit setMode={this.setMode.bind(this)} back={() => this.backToMain()} row={this.state.row}/>
         if(this.state.mode === TaskMode.SHOW)
-            return <TaskDetailsShow setMode={this.setMode.bind(this)} back={() => this.backToMain()} row={this.state.row}/>
+            return <ProjectDetailsShow setMode={this.setMode.bind(this)} back={() => this.backToMain()} row={this.state.row}/>
         else
             return <div>Error in Task details</div>
     }
@@ -60,7 +60,7 @@ export class TaskDetails extends Component {
     }
 }
 
-class TaskDetailsEdit extends Component {
+class ProjectDetailsEdit extends Component {
     constructor({ setMode, back, row }){
         super()
         this.state = {
@@ -157,6 +157,13 @@ class TaskDetailsEdit extends Component {
         )
     }
     async saveTask(){
+
+        /*const form = this.verifyFields()
+
+        if(!form.valid){
+            alert(form.message)
+            return
+        }*/
         //POST REQUEST {loginStatus, task: {_id, title, content, imagePath}}
         //expected {success: true | false}
         
@@ -165,15 +172,27 @@ class TaskDetailsEdit extends Component {
             success: true
         }
         if(data.success){
-            alert('Tarefa salva com sucesso.')
+            alert('Projeto salvo com sucesso.')
             this.state.setMode(TaskMode.SHOW, this.state.row)
         }
         else
-            alert('Erro ao salvar tarefa!')
+            alert('Erro ao salvar projeto!')
         
     }
+    verifyFields(){
+        if(this.state.row.title)
+            return {message: 'É necessario preencher o titulo.', valid: false}
+        if(this.state.row.content)
+            return {message: 'É necessario preencher a descrição.', valid: false}
+        if(this.state.row.startDate)
+            return {message: 'É necessario preencher a data de inicio.', valid: false}
+        if(this.state.row.endDate)
+            return {message: 'É necessario preencher a data final.', valid: false}
+        else
+            return {valid: true}
+    }
 }
-class TaskDetailsShow extends Component {
+class ProjectDetailsShow extends Component {
     constructor({ setMode, back, row }){
         super()
         this.state = {

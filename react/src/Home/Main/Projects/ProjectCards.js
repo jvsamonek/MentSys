@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { ActionBar } from '../ActionBar'
 import { Card } from './Cards/Card'
 import { MenuCode, MainWaiting } from '../Main';
-import { TaskMode } from './Task/TaskDetails';
+import { TaskMode } from './Project/ProjectDetails';
 import { timeout } from '../../Home';
 
-export class TaskCards extends Component {
+export class ProjectCards extends Component {
     constructor({main}){
         super()
         this.fecthData()
@@ -14,7 +14,7 @@ export class TaskCards extends Component {
             main,
             row: [],
             actions: [
-                {name: 'Criar tarefa', action: () => this.createTask()}
+                {name: 'Criar projeto', action: () => this.createTask()}
             ]
         }
     }
@@ -42,7 +42,7 @@ export class TaskCards extends Component {
             return <MainWaiting message="Não existem tarefas no momento." loading={false} ></MainWaiting>
         return (
             <div className="main-diff">
-                <ActionBar title={'Tarefas Ativas'} actions={this.state.actions}/>
+                <ActionBar title={'Projetos Ativos'} actions={this.state.actions}/>
                 <div className="main-content">
                     {this.state.row.map(task => (
                         <Card main={this.state.main} row={task}/>
