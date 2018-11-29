@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 var TarefaSchema = new mongoose_1.default.Schema({
     statusId: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Status' },
-    titulo: String,
+    title: String,
     startDate: Date,
     endDate: Date,
     userId: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: 'User' }],
