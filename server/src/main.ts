@@ -210,8 +210,8 @@ app.post('/salvarUsuario', async (request, response)=> {
     //processar
     try{    
         const input = JSON.parse(request.query.json || '')
-        const frontEmail = input.loginStatus.email
-        const UserID = await User.find({email: frontEmail}).exec()
+        const frontId = input.loginStatus._id
+        const UserID = await User.find({_id: frontId}).exec()
         const alertas = await Alerta.find({user: UserID[0]._id}).populate('project').populate('status').populate('user').exec()
         if(alertas.length == 0)
             throw new Error('Sem alertas')
