@@ -167,7 +167,6 @@ class ProjectDetailsEdit extends Component {
     async saveProject(){
         const loginStatus = getLoginStatus()
         const project = this.state.row
-        debugger
         const data = await Req.post("/salvarProjeto", {loginStatus, project})
         if(data.success){
             alert('Projeto salvo com sucesso.')

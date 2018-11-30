@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import TextField from '@material-ui/core/TextField';
-import { MenuCode, MainWaiting } from '../Main';
+import { MenuCode, MainWaiting, MainMessage } from '../Main';
 import { timeout } from '../../Home';
 import { getLoginStatus } from '../../../Components/LoginStatus';
 import { Req } from '../../../Components/Request';
@@ -32,7 +32,7 @@ export class TaskManagement extends Component {
         if(this.state.loading)
             return <MainWaiting></MainWaiting>
         if(this.state.row.length === 0)
-            return <MainWaiting message="Não existem atividades no momento." loading={false}></MainWaiting>
+            return <MainMessage message="Não existem atividades no momento."/>
         return (
             <div className="main-diff">
                 <ActionBar title={'Central de Atividades'}/>
