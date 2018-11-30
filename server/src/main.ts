@@ -193,7 +193,7 @@ import {Status} from './models/Status'
     const input = JSON.parse(request.query.json || '')
     const frontEmail = input.loginStatus.email
     const UserID = await User.find({email: frontEmail}).exec()
-    const alertas = await Alerta.find({user: UserID[0]._id}).populate('task').populate('status').exec()
+    const alertas = await Alerta.find({user: UserID[0]._id}).populate('project').populate('status').populate('user').exec()
     //processar
     try{    
         if(alertas.length == 0)
@@ -208,7 +208,7 @@ import {Status} from './models/Status'
 
 //---------------------------------Task Functions
     app.get('/todasTarefas', async (request, response) => {
-    const allTarefas = await Tarefa.find().exec()
+    const allTarefas = await Tarefa.find().populate('user').populate('project').populate('status').exec()
     //processar
     if(allTarefas)
         response.send({success: true, allTarefas})
@@ -253,30 +253,24 @@ import {Status} from './models/Status'
     })
 
 
-            //GET REQUEST {loginSatus, activity: {_id}}
-        //expected {activity: {_id, status: {_id}, task: {_id, title, startDate, endDate}, user: {_id}}}
-        //-Uma tarefa é a atribuição de um tarefa especifica a um usuário. Tem como atributos status que representa o estado atual
-    app.get('/tarefaEspecifica', async (request, response) => {
-    const input = JSON.parse(request.query.json || '')
-    const loginEmail = input.loginStatus.email  
-    const taskRequest = input.activity._id
-    try{   
-        let usuario:any = await User.find({email: loginEmail}).exec() 
-        let tasks:any = await Tarefa.find({_id: taskRequest, user: usuario[0]._id}).exec()
-        if(tasks.length > 0){
-            let project = await Projeto.find({_id: tasks[0].projeto})
-            let status = await Status.find({_id: tasks[0].status})
-            let activity = { _id: tasks[0]._id, status: status[0], task: project[0], user: {_id: usuario[0]._id}}
-            response.send({success: true, activity})
-        }else{
-            throw new Error('Erro 1')
-        }
-        
-    }catch(err){
+//GET REQUEST {loginSatus, activity: {_id}}
+//expected {activity: {_id, status: {_id}, task: {_id, title, startDate, endDate}, user: {_id}}}
+//-Uma tarefa é a atribuição de um tarefa especifica a um usuário. Tem como atributos status que representa o estado atual
+app.get('/tarefaEspecifica', async (request, response) => {
+    try{
+        const input = JSON.parse(request.query.json || '')
+        const taskId = mongoose.Types.ObjectId(input.task._id)
+        const task = await Tarefa.findById(taskId)
+            .populate('status')
+            .populate('project')
+            .populate('user')
+            .exec()
+        response.send({success: true, task})
+    }
+    catch(error){
         response.send({success: false})
     }
-
-    })
+})
 
                 //GET REQUEST {loginStatus}
             //expected [{_id, status: {name}, task: {title}, user: {name}}]
@@ -348,5 +342,5 @@ import {Status} from './models/Status'
     });
 
     !async function main(){
-        console.log(await Projeto.find().exec())
+        console.log(await Tarefa.find())
     }()

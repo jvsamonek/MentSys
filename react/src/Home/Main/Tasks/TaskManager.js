@@ -7,8 +7,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import TextField from '@material-ui/core/TextField';
 import { MenuCode, MainWaiting } from '../Main';
 import { timeout } from '../../Home';
+import { getLoginStatus } from '../../../Components/LoginStatus';
+import { Req } from '../../../Components/Request';
 
-export class PeopleManager extends Component {
+export class TaskManagement extends Component {
     constructor({title, main}){
         super()
         this.fetchData()
@@ -19,27 +21,12 @@ export class PeopleManager extends Component {
         }        
     }
     async fetchData(){
-        //GET REQUEST {loginStatus}
-        //expected [{_id, status: {name}, task: {title}, user: {name}}]
-
-        await timeout(500)
-        const data = {
-            loading: false,
-            row: [...Array(10).keys()]
-                .map(n => ({
-                    _id: n,
-                    status: {
-                        name: 'PENDENTE'
-                    },
-                    task: {
-                        title: 'Tarefa ' + n + 1
-                    }, 
-                    user: {
-                        name: 'Guilherme'
-                    }
-                }))
-        }
-        this.setState(data)
+        const loginStatus = getLoginStatus()
+        const data = await Req.get('/todasTarefas', {loginStatus})
+        if(data.success)
+            this.setState({row: data.allTarefas, loading: false})
+        else
+            this.setState({loading: false})
     }
     render(){
         if(this.state.loading)
@@ -52,7 +39,7 @@ export class PeopleManager extends Component {
                 <div className="main-content">
                     <List >
                         {this.state.row.map(activity => 
-                            <PeopleLine main={this.state.main} row={activity}/>
+                            <TaskLine main={this.state.main} row={activity}/>
                         )}
                     </List>
                 </div>
@@ -61,7 +48,7 @@ export class PeopleManager extends Component {
     }
 }
 
-export class PeopleLine extends Component {
+export class TaskLine extends Component {
     constructor({ row, main }){
         super()
         this.state = {
@@ -78,7 +65,7 @@ export class PeopleLine extends Component {
                         className="task-manager-title left"
                         id="outlined-name"
                         label="Tarefa"
-                        value={this.state.row.task.title}
+                        value={this.state.row.project.title}
                         margin="normal"
                         variant="outlined"
                         style={{

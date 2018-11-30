@@ -173,7 +173,7 @@ app.get('/alertasUsuario', async (request, response) => {
     const input = JSON.parse(request.query.json || '');
     const frontEmail = input.loginStatus.email;
     const UserID = await User_1.User.find({ email: frontEmail }).exec();
-    const alertas = await Alerta_1.Alerta.find({ user: UserID[0]._id }).populate('task').populate('status').exec();
+    const alertas = await Alerta_1.Alerta.find({ user: UserID[0]._id }).populate('project').populate('status').populate('user').exec();
     //processar
     try {
         if (alertas.length == 0)
@@ -187,7 +187,7 @@ app.get('/alertasUsuario', async (request, response) => {
 });
 //---------------------------------Task Functions
 app.get('/todasTarefas', async (request, response) => {
-    const allTarefas = await Tarefa_1.Tarefa.find().exec();
+    const allTarefas = await Tarefa_1.Tarefa.find().populate('user').populate('project').populate('status').exec();
     //processar
     if (allTarefas)
         response.send({ success: true, allTarefas });
@@ -232,23 +232,17 @@ app.post('/criarTarefa', async (request, response) => {
 //expected {activity: {_id, status: {_id}, task: {_id, title, startDate, endDate}, user: {_id}}}
 //-Uma tarefa é a atribuição de um tarefa especifica a um usuário. Tem como atributos status que representa o estado atual
 app.get('/tarefaEspecifica', async (request, response) => {
-    const input = JSON.parse(request.query.json || '');
-    const loginEmail = input.loginStatus.email;
-    const taskRequest = input.activity._id;
     try {
-        let usuario = await User_1.User.find({ email: loginEmail }).exec();
-        let tasks = await Tarefa_1.Tarefa.find({ _id: taskRequest, user: usuario[0]._id }).exec();
-        if (tasks.length > 0) {
-            let project = await Projeto_1.Projeto.find({ _id: tasks[0].projeto });
-            let status = await Status_1.Status.find({ _id: tasks[0].status });
-            let activity = { _id: tasks[0]._id, status: status[0], task: project[0], user: { _id: usuario[0]._id } };
-            response.send({ success: true, activity });
-        }
-        else {
-            throw new Error('Erro 1');
-        }
+        const input = JSON.parse(request.query.json || '');
+        const taskId = mongoose_1.default.Types.ObjectId(input.task._id);
+        const task = await Tarefa_1.Tarefa.findById(taskId)
+            .populate('status')
+            .populate('project')
+            .populate('user')
+            .exec();
+        response.send({ success: true, task });
     }
-    catch (err) {
+    catch (error) {
         response.send({ success: false });
     }
 });
@@ -311,5 +305,5 @@ app.listen(4242, () => {
     console.log('Rodando na port 4242');
 });
 !async function main() {
-    console.log(await Projeto_1.Projeto.find().exec());
+    console.log(await Tarefa_1.Tarefa.find());
 }();

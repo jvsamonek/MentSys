@@ -9,7 +9,7 @@ var TarefaSchema = new mongoose_1.default.Schema({
     title: String,
     startDate: { type: Date, default: Date.now },
     endDate: { type: Date, default: Date.now },
-    user: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: 'User' }],
-    projeto: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Projeto' },
+    user: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'User' },
+    project: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Projeto' },
 });
 exports.Tarefa = mongoose_1.default.model('Tarefa', TarefaSchema);

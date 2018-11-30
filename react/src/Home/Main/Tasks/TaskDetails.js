@@ -5,13 +5,15 @@ import TextField from '@material-ui/core/TextField';
 import { Select } from '../../../Components/Select';
 import { BottomActionBar } from '../BottomActionBar';
 import { timeout } from '../../Home';
+import { getLoginStatus } from '../../../Components/LoginStatus';
+import { Req } from '../../../Components/Request';
+import { formatDate } from '../Projects/Project/ProjectDetails'
 
-export class ActivityDetails extends Component {
+export class TaskDetails extends Component {
     constructor({ main, row }){
         super()
-        this.fetchData()
-        //expected row: {_id, status: {name}, task: {title}, user: {name}}
         this.state = {
+            loading: true,
             main,
             row,
             status: [],
@@ -20,51 +22,31 @@ export class ActivityDetails extends Component {
                 {name: 'Salvar', action: () => this.saveTask()}
             ]
         }
+        this.fetchData()
     }
     async fetchData(){
-        //GET REQUEST {loginSatus, activity: {_id}}
-        //expected {activity: {_id} status: {_id}, task: {_id} title, startDate, endDate}, user: {_id}}}
-
-        //GET REQUEST {}
-        //expected {status: [{_id} name}, ...]}
-        
-        //GET REQUEST {}
-        //expected {users: [{_id} name}, ...]}
-
-        await timeout(500)
-        const data = {
-            row: {
-                _id: 55, 
-                status: {_id: 1}, 
-                task: {
-                    _id: 33, 
-                    title: 'titulo',
-                    startDate: new Date().toISOString().slice(0, 10),
-                    endDate: new Date().toISOString().slice(0, 10)
-                }, 
-                user: {
-                    _id: 1
-                }
-            },
-            status: [
-                {_id: 0, name: 'PENDENTE'},
-                {_id: 1, name: 'ATRASADO'},
-                {_id: 2, name: 'CONCLUIDO'}
-            ],
-            users: [
-                {_id: 0, name: 'Guilherme'},
-                {_id: 1, name: 'Gabriel'},
-                {_id: 2, name: 'Amanda'},
-            ]
-        }
+        const data = {}
+        const loginStatus = getLoginStatus()
+        const statusRequest = await Req.get('/todosStatus')
+        if(statusRequest.success)
+            data.status = statusRequest.allStatus
+        const usersRequest = await Req.get('/todosUsuarios')
+        if(usersRequest.success)
+            data.users = usersRequest.allUsers
+        const taskRequest = await Req.get('/tarefaEspecifica', {loginStatus, task: {_id: this.state.row._id}})
+        if(taskRequest.success)
+            data.row = taskRequest.task
+        data.loading = false
         this.setState(data)
     }
     render(){
-        if(this.state.status.length === 0 || this.state.users.length === 0)
+        if(this.state.loading)
             return <MainWaiting/>
         this.status = <Select className="left" title='Status' value={this.state.row.status._id} options={this.state.status}/>
         this.user = <Select className="left" title='Responsavel' value={this.state.row.user._id} options={this.state.users}/>
-        
+
+        const s = new Date(this.state.row.startDate)
+        const e = new Date(this.state.row.endDate)
         return (
             <div className="main-diff">
                 <ActionBar title="Propriedades da Atividade"
@@ -80,11 +62,11 @@ export class ActivityDetails extends Component {
                                 }}
                             className="task-manager-title left"
                             id="outlined-name"
-                            label="Tarefa"
-                            value={this.state.row.task.title}
+                            label="Projeto"
+                            value={this.state.row.project.title}
                             margin="normal"
                             variant="outlined"
-                            onChange={e => {this.state.row.task.title = e.target.value}}
+                            onChange={e => {this.state.row.project.title = e.target.value}}
                         />
                         <div>
                             <TextField
@@ -92,11 +74,14 @@ export class ActivityDetails extends Component {
                                     margin: '10px',
                                     width: '38%'
                                 }}
-                                onChange={(e) => this.state.row.task.startDate = e.target.value}
+                                onChange={ (e) => {
+                                    const [year, month, day] = e.target.value.split('-').map(s => +s)
+                                    this.state.row.startDate = new Date(year, month - 1, day).toString()
+                                }}
                                 id="date"
                                 label="Inicio"
                                 type="date"
-                                defaultValue={this.state.row.task.startDate}
+                                defaultValue={formatDate(s)}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -106,11 +91,14 @@ export class ActivityDetails extends Component {
                                     margin: '10px',
                                     width: '38%'
                                 }}
-                                onChange={(e) => this.state.row.task.endDate = e.target.value}
+                                onChange={ (e) => {
+                                    const [year, month, day] = e.target.value.split('-').map(s => +s)
+                                    this.state.row.endDate = new Date(year, month - 1, day).toString()
+                                }}
                                 id="date"
                                 label="Fim"
                                 type="date"
-                                defaultValue={this.state.row.task.endDate}
+                                defaultValue={formatDate(e)}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
