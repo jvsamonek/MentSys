@@ -87,3 +87,23 @@ export class MainWaiting extends Component{
         </div>)
     }
 }
+
+export class MainMessage extends Component{
+    constructor({ message}){
+        super()
+        this.state = {
+            message: message || 'Não ha nada disponível no momento.'
+        }
+    }
+    render(){
+        return (
+        <div className="main-diff">
+            <ActionBar/>
+            <div className="main-content center-message">
+                <div style={{margin: '20px'}}>
+                    {this.state.message}
+                </div>
+            </div>
+        </div>)
+    }
+}

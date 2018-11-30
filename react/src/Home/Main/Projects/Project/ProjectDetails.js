@@ -33,7 +33,7 @@ export class ProjectDetails extends Component {
             row: {
                 _id: this.state.row._id || 0,
                 title: this.state.row.title || 'Novo titulo',
-                content: this.state.row.content || 'Novo content',
+                content: this.state.row.description || 'Novo content',
                 startDate: new Date().toISOString().slice(0, 10),
                 endDate: new Date().toISOString().slice(0, 10),
                 imagePath: '/images/ind3.jpg'//'localhost:3000/image' + this.state.row.id
@@ -98,10 +98,10 @@ class ProjectDetailsEdit extends Component {
                                 label="Descrição"
                                 multiline
                                 rows="25"
-                                defaultValue={this.state.row.content || ''}
+                                defaultValue={this.state.row.description}
                                 margin="normal"
                                 variant="outlined"
-                                onChange={e => {this.state.row.content = e.target.value}}
+                                onChange={e => {this.state.row.description = e.target.value}}
                             />
                         </div>
                     </div>
@@ -169,7 +169,7 @@ class ProjectDetailsEdit extends Component {
         const projeto = {
             title: this.state.row.title,
             imagePath: this.state.row.imagePath,
-            description: this.state.row.content
+            description: this.state.row.description
         }
         debugger
         const data = await Req.post("/salvarProjeto", projeto)
@@ -185,7 +185,7 @@ class ProjectDetailsEdit extends Component {
     verifyFields(){
         if(this.state.row.title)
             return {message: 'É necessario preencher o titulo.', valid: false}
-        if(this.state.row.content)
+        if(this.state.row.description)
             return {message: 'É necessario preencher a descrição.', valid: false}
         if(this.state.row.startDate)
             return {message: 'É necessario preencher a data de inicio.', valid: false}
@@ -239,7 +239,7 @@ class ProjectDetailsShow extends Component {
                             {this.state.row.title}
                         </div>
                         <div className="task-description">
-                            {this.state.row.content}
+                            {this.state.row.description}
                         </div>
                     </div>
                     <div className="task-right">
