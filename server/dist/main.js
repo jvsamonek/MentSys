@@ -28,7 +28,7 @@ const Status_1 = require("./models/Status");
 app.post('/logoff', async (request, response) => {
     try {
         const loginStatus = request.body.loginStatus; //loginStatus == {name: 'Guilherme', email: 'email@', senha: '123'}
-        let usuario = await User_1.User.find({ email: loginStatus.email }).exec();
+        let usuario = await User_1.User.find({ _id: loginStatus._id }).exec();
         if (usuario.length > 0 && usuario[0].logged) {
             usuario[0].logged = false;
             await usuario[0].save();
@@ -142,9 +142,9 @@ app.get('/todosProjetos', async (request, response) => {
 //expected {success: true | false}
 //Salvar informações do usuario logado
 app.post('/salvarUsuario', async (request, response) => {
-    const frontEmail = request.body.loginStatus.email;
+    const frontId = request.body.loginStatus._id;
     try {
-        let usuario = await User_1.User.find({ email: frontEmail }).exec();
+        let usuario = await User_1.User.find({ _id: frontId }).exec();
         if (usuario.length == 0)
             throw new Error('Não existe esse user');
         usuario[0].name = request.body.usuarioFront.name;
@@ -163,9 +163,9 @@ app.post('/salvarUsuario', async (request, response) => {
 //Pegar informações do usuario logado
 app.get('/infoUsuario', async (request, response) => {
     const input = JSON.parse(request.query.json || '');
-    const loggedEmail = input.loginStatus.email; //task== {id: 321}
+    const loggedId = input.loginStatus._id; //task== {id: 321}
     //pegar dados do mongo    
-    let loggedUser = await User_1.User.find({ email: loggedEmail }).exec();
+    let loggedUser = await User_1.User.find({ _id: loggedId }).exec();
     //processar
     if (loggedUser[0]) {
         let name = loggedUser[0].name, lastName = loggedUser[0].lastName, email = loggedUser[0].email, phone = loggedUser[0].phone;
@@ -301,9 +301,9 @@ app.get('/tarefaEspecifica', async (request, response) => {
 //Lista com todas as tarefas associadas ao usuário logado
 app.get('/tarefasUsuario', async (request, response) => {
     const input = JSON.parse(request.query.json || '');
-    const loginEmail = input.loginStatus.email;
+    const loggedId = input.loginStatus._id;
     try {
-        let usuario = await User_1.User.find({ email: loginEmail }).exec();
+        let usuario = await User_1.User.find({ _id: loggedId }).exec();
         let tasks = await Tarefa_1.Tarefa.find({ user: usuario[0]._id }).populate('status').populate('projeto').populate('user').exec();
         if (tasks.length > 0) {
             response.send({ success: true, tasks });
@@ -334,9 +334,9 @@ app.get('/todosStatus', async (request, response) => {
 //Pode ser número de tarefas, atividades, alertas
 app.get('/barras', async (request, response) => {
     const input = JSON.parse(request.query.json || '');
-    const loginEmail = input.loginStatus.email;
+    const loggedId = input.loginStatus._id;
     try {
-        let usuario = await User_1.User.find({ email: loginEmail }).exec();
+        let usuario = await User_1.User.find({ _id: loggedId }).exec();
         let tasks = await Tarefa_1.Tarefa.find({ user: usuario[0]._id }).exec();
         let projects = await Projeto_1.Projeto.find().exec();
         let alerts = await Alerta_1.Alerta.find({ user: usuario[0]._id }).exec();
