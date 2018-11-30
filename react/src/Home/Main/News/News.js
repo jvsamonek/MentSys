@@ -5,6 +5,8 @@ import CardM from '@material-ui/core/Card';
 import { InfoCard } from './InfoCard';
 import { timeout } from '../../Home';
 import { MainWaiting } from '../Main';
+import { getLoginStatus } from '../../../Components/LoginStatus';
+import { Req } from '../../../Components/Request';
 
 export class News extends Component {
     constructor(){
@@ -15,20 +17,13 @@ export class News extends Component {
         }
     }
     async fetchData(){
-        //GET REQUEST {loginStatus}
-        //expected {bars: [{name, value}, ...]}
-        await timeout(500)
-        const data = {
-            loading: false,
-            row: {
-                bars: [
-                    {name: 'Tarefas', value: 63},
-                    {name: 'Atividades', value: 900},
-                    {name: 'Alertas', value: 20},
-                ]
-            }
-        }
-        this.setState(data)
+        const loginStatus = getLoginStatus()
+        const data = await Req.get('/barras', {loginStatus})  
+
+        if(data.success)
+            this.setState({row: data, loading: false})
+        else
+            this.setState({row: [], loading: false})
     }
     render(){
         if(this.state.loading)
