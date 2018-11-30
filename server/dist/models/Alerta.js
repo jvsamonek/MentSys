@@ -9,5 +9,6 @@ var AlertaSchema = new mongoose_1.default.Schema({
     status: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Status' },
     task: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Tarefa' },
     user: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'User' },
+    project: { type: mongoose_1.default.Schema.Types.ObjectId, ref: 'Projeto' }
 });
 exports.Alerta = mongoose_1.default.model('Alerta', AlertaSchema);

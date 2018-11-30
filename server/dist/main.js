@@ -170,12 +170,12 @@ app.get('/todosUsuarios', async (request, response) => {
 //Um alerta é gerado a partir de tarefas que tem algum problema, por exemplo estão com prazo próximo do limite ou já passou do limite.
 //Da pra criar mais algumas condições pra gerar esses alertas
 app.get('/alertasUsuario', async (request, response) => {
-    const input = JSON.parse(request.query.json || '');
-    const frontEmail = input.loginStatus.email;
-    const UserID = await User_1.User.find({ email: frontEmail }).exec();
-    const alertas = await Alerta_1.Alerta.find({ user: UserID[0]._id }).populate('project').populate('status').populate('user').exec();
     //processar
     try {
+        const input = JSON.parse(request.query.json || '');
+        const frontEmail = input.loginStatus.email;
+        const UserID = await User_1.User.find({ email: frontEmail }).exec();
+        const alertas = await Alerta_1.Alerta.find({ user: UserID[0]._id }).populate('project').populate('status').populate('user').exec();
         if (alertas.length == 0)
             throw new Error('Sem alertas');
         response.send({ success: true, alertas });

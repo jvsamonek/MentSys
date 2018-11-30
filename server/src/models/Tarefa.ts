@@ -5,8 +5,8 @@ var TarefaSchema = new mongoose.Schema({
   title: String,
   startDate: {type: Date, default: Date.now},
   endDate: {type: Date, default: Date.now},
-  user: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-  projeto: {type: mongoose.Schema.Types.ObjectId, ref: 'Projeto'},
+  user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  project: {type: mongoose.Schema.Types.ObjectId, ref: 'Projeto'},
 });
 
 export const Tarefa = mongoose.model('Tarefa', TarefaSchema );
