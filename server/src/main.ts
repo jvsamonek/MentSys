@@ -224,7 +224,7 @@ import {Status} from './models/Status'
             let tarefas:any = await Tarefa.find({_id: frontId}).exec()
             if(tarefas.length == 0)
                 throw new Error('Não existe essa tarefa')
-            tarefas[0].statusId = request.body.activity.statusId
+            tarefas[0].status = request.body.activity.status
             tarefas[0].title = request.body.activity.title
             tarefas[0].startDate = request.body.activity.task.startDate
             tarefas[0].endDate = request.body.activity.task.endDate
@@ -243,7 +243,7 @@ import {Status} from './models/Status'
         console.log('aaaa')
         try{
             let tarefa:any = new Tarefa()
-            tarefa.status = request.body.activity.statusId
+            tarefa.status = request.body.activity.status
             tarefa.title = request.body.activity.title
             let projetoPai:any = await Projeto.find({_id: request.body.activity.task._id}).exec()
             tarefa.projeto = projetoPai[0]._id
@@ -271,8 +271,8 @@ import {Status} from './models/Status'
         let usuario:any = await User.find({email: loginEmail}).exec() 
         let tasks:any = await Tarefa.find({_id: taskRequest, user: usuario[0]._id}).exec()
         if(tasks.length > 0){
-            let project = await Projeto.find({_id: tasks[0].projetoId})
-            let status = await Status.find({_id: tasks[0].statusId})
+            let project = await Projeto.find({_id: tasks[0].projeto})
+            let status = await Status.find({_id: tasks[0].status})
             let activity = { _id: tasks[0]._id, status: status[0], task: project[0], user: {_id: usuario[0]._id}}
             response.send({success: true, activity})
         }else{
