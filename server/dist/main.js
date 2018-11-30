@@ -139,20 +139,19 @@ app.get('/todosProjetos', async (request, response) => {
 //expected {success: true | false}
 //Salvar informações do usuario logado
 app.post('/salvarUsuario', async (request, response) => {
+    const frontEmail = request.body.loginStatus.email;
     try {
-        const frontEmail = request.body.loginStatus.email;
-        const usuario = await User_1.User.find({ email: frontEmail }).exec();
+        let usuario = await User_1.User.find({ email: frontEmail }).exec();
         if (usuario.length == 0)
             throw new Error('Não existe esse user');
-        usuario[0].name = request.body.loginStatus.name;
-        usuario[0].lastName = request.body.loginStatus.lastName;
-        usuario[0].email = request.body.loginStatus.email;
-        usuario[0].phone = request.body.loginStatus.phone;
+        usuario[0].name = request.body.usuarioFront.name;
+        usuario[0].lastName = request.body.usuarioFront.lastName;
+        usuario[0].email = request.body.usuarioFront.email;
+        usuario[0].phone = request.body.usuarioFront.phone;
         await usuario[0].save();
         response.send({ success: true });
     }
     catch (err) {
-        console.log(err);
         response.send({ success: false });
     }
 });
@@ -206,12 +205,36 @@ app.get('/alertasUsuario', async (request, response) => {
         response.send({ success: false });
     }
 });
+app.post('/deletarUsuario', async (request, response) => {
+    const userId = request.body.user._id;
+    //pegar dados do mong
+    let users = await User_1.User.find({ _id: userId }).exec();
+    //processar
+    if (users[0]) {
+        users[0].remove();
+        response.send({ success: true });
+    }
+    else
+        response.send({ success: false });
+});
 //---------------------------------Task Functions
 app.get('/todasTarefas', async (request, response) => {
     const allTarefas = await Tarefa_1.Tarefa.find().populate('user').populate('project').populate('status').exec();
     //processar
     if (allTarefas)
         response.send({ success: true, allTarefas });
+    else
+        response.send({ success: false });
+});
+app.post('/deletarTarefa', async (request, response) => {
+    const taskId = request.body.task._id;
+    //pegar dados do mong
+    let task = await Tarefa_1.Tarefa.find({ _id: taskId }).exec();
+    //processar
+    if (task[0]) {
+        task[0].remove();
+        response.send({ success: true });
+    }
     else
         response.send({ success: false });
 });
