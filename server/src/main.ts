@@ -240,16 +240,9 @@ import {Status} from './models/Status'
         //expected {success: true | false}
         //Salvar informações de uma tarefa
     app.post('/criarTarefa', async (request, response)=> {
-        console.log('aaaa')
         try{
-            let tarefa:any = new Tarefa()
-            tarefa.status = request.body.activity.status
-            tarefa.title = request.body.activity.title
-            let projetoPai:any = await Projeto.find({_id: request.body.activity.task._id}).exec()
-            tarefa.projeto = projetoPai[0]._id
-            tarefa.startDate = projetoPai[0].startDate
-            tarefa.endDate = projetoPai[0].endDate
-            tarefa.user = request.body.activity.user._id
+            let tarefaFront = request.body.activity
+            let tarefa:any = new Tarefa({status: tarefaFront.status, title: tarefaFront.title, projeto: tarefaFront.task._id, user: tarefaFront.user })
             await tarefa.save()
             response.send({success: true})
         }catch(err){
