@@ -317,3 +317,6 @@ app.get('/barras', async (request, response) => {
 app.listen(4242, () => {
     console.log('Rodando na port 4242');
 });
+!async function main() {
+    console.log(await Projeto_1.Projeto.find().exec());
+}();

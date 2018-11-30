@@ -353,3 +353,7 @@ import {Status} from './models/Status'
     app.listen(4242, ()=>{
     console.log('Rodando na port 4242')
     });
+
+    !async function main(){
+        console.log(await Projeto.find().exec())
+    }()

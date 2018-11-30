@@ -5,6 +5,7 @@ import { MenuCode, MainWaiting } from '../../Main';
 import TextField from '@material-ui/core/TextField';
 import { timeout } from '../../../Home';
 import { Req } from '../../../../Components/Request';
+import { getLoginStatus } from '../../../../Components/LoginStatus';
 
 export const TaskMode = {
     SHOW: 1,
@@ -14,33 +15,26 @@ export const TaskMode = {
 export class ProjectDetails extends Component {
     constructor({main, row, mode}){
         super()
-        this.fetchData()
-        //expected row = {task: {_id, title, content}}
         this.state = {
             loading: true,
             main,
             row,
             mode
         }
+        this.fetchData()
     }
     async fetchData(){
         //GET REQUEST {loginStatus, task: {_id}}
         //expected {task: {_id, title, content, imagePath}}
-        
-        await timeout(500)
-        const data = {
-            loading: false,
-            row: {
-                _id: this.state.row._id || 0,
-                title: this.state.row.title || 'Novo titulo',
-                content: this.state.row.description || 'Novo content',
-                startDate: new Date().toISOString().slice(0, 10),
-                endDate: new Date().toISOString().slice(0, 10),
-                imagePath: '/images/ind3.jpg'//'localhost:3000/image' + this.state.row.id
-            }
-        }
 
-        this.setState(data)
+        const loginStatus = getLoginStatus()
+        const task = {_id: this.state.row._id}
+        const data = await Req.get('/especificoProjeto', {loginStatus, task})
+
+        if(data.success)
+            this.setState({row: data.task, loading: false})
+        else
+            this.setState({loading: false})
     }
     render(){
         if(this.state.loading)
@@ -60,6 +54,15 @@ export class ProjectDetails extends Component {
     }
 }
 
+export function formatDate(d){
+    let [year, month, day] = [d.getFullYear(), d.getMonth() + 1, d.getDate()]
+    if(month < 10)
+        month = '0' + month
+    if(day < 10)
+        day = '0' + day
+    return [year, month, day].join('-')
+
+}
 class ProjectDetailsEdit extends Component {
     constructor({ setMode, back, row }){
         super()
@@ -76,6 +79,8 @@ class ProjectDetailsEdit extends Component {
         }
     }
     render(){
+        const s = new Date(this.state.row.startDate)
+        const e = new Date(this.state.row.endDate)
         return (
             <div className="main-diff">
                 <ActionBar back={() => this.state.back()}/>
@@ -113,11 +118,14 @@ class ProjectDetailsEdit extends Component {
                                         width: '45%',
                                         float: 'left'
                                     }}
-                                    onChange={(e) => this.state.row.startDate = e.target.value}
+                                    onChange={ (e) => {
+                                            const [year, month, day] = e.target.value.split('-').map(s => +s)
+                                            this.state.startDate = new Date(year, month - 1, day).toString()
+                                        }}
                                     id="date"
                                     label="Inicio"
                                     type="date"
-                                    defaultValue={this.state.row.startDate || '2018-11-26'}
+                                    defaultValue={formatDate(s)}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
@@ -128,11 +136,14 @@ class ProjectDetailsEdit extends Component {
                                         width: '45%',
                                         float: 'left'
                                     }}
-                                    onChange={(e) => this.state.row.endDate = e.target.value}
+                                    onChange={(e) => {
+                                        const [year, month, day] = e.target.value.split('-').map(s => +s)
+                                            this.state.endDate = new Date(year, month - 1, day).toString()
+                                    }}
                                     id="date"
                                     label="Fim"
                                     type="date"
-                                    defaultValue={this.state.row.endDate || '2018-11-26'}
+                                    defaultValue={formatDate(e)}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
@@ -166,17 +177,14 @@ class ProjectDetailsEdit extends Component {
         }*/
         //POST REQUEST {loginStatus, task: {_id, title, content, imagePath}}
         //expected {success: true | false}
-        const projeto = {
-            title: this.state.row.title,
-            imagePath: this.state.row.imagePath,
-            description: this.state.row.description
-        }
+        const loginStatus = getLoginStatus()
+        const project = this.state.row
         debugger
-        const data = await Req.post("/salvarProjeto", projeto)
+        const data = await Req.post("/salvarProjeto", {loginStatus, project})
         debugger
         if(data.success){
             alert('Projeto salvo com sucesso.')
-            this.state.setMode(TaskMode.SHOW, this.state.row)
+            this.state.setMode(TaskMode.SHOW)
         }
         else
             alert('Erro ao salvar projeto!')
@@ -230,6 +238,7 @@ class ProjectDetailsShow extends Component {
 
     }
     render(){
+        debugger
         return (
             <div className="main-diff">
                 <ActionBar back={() => this.state.back()}/>
@@ -244,7 +253,12 @@ class ProjectDetailsShow extends Component {
                     </div>
                     <div className="task-right">
                         <div className="estimate-field">
-                            Inicio <b>{this.state.row.startDate}</b>   Fim estimado: <b>{this.state.row.startDate}</b>
+                            Inicio 
+                                <b>{this.state.row.startDate &&
+                                    this.state.row.startDate.slice(0, 10)}</b>   
+                            Fim estimado:                                 
+                                <b>{this.state.row.startDate && 
+                                    this.state.row.startDate.slice(0, 10)}</b>
                         </div>
                         <br></br>
                         <div className="task-image" >
