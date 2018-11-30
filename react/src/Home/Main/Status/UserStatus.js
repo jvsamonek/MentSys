@@ -111,10 +111,11 @@ export class UserStatus extends Component {
         //POST REQUEST {loginStatus, {name, lastName, email, phone}}
         //expected {success: true | false}
 
-        await timeout(500)
-        const data = {
-            success: true
-        }
+        const loginStatus = getLoginStatus()
+        let usuarioFront = this.state.row
+        debugger
+        const data = await Req.post('/salvarUsuario', loginStatus, usuarioFront)
+        debugger
         if(data.success)
             alert('Informções salvas com sucesso.')
         else
