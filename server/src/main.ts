@@ -193,7 +193,7 @@ import {Status} from './models/Status'
     const input = JSON.parse(request.query.json || '')
     const frontEmail = input.loginStatus.email
     const UserID = await User.find({email: frontEmail}).exec()
-    const alertas = await Alerta.find({userId: UserID[0]._id}).exec()
+    const alertas = await Alerta.find({user: UserID[0]._id}).exec()
     //processar
     try{    
         if(alertas.length == 0)
@@ -243,13 +243,13 @@ import {Status} from './models/Status'
         console.log('aaaa')
         try{
             let tarefa:any = new Tarefa()
-            tarefa.statusId = request.body.activity.statusId
+            tarefa.status = request.body.activity.statusId
             tarefa.title = request.body.activity.title
             let projetoPai:any = await Projeto.find({_id: request.body.activity.task._id}).exec()
-            tarefa.projetoId = projetoPai[0]._id
+            tarefa.projeto = projetoPai[0]._id
             tarefa.startDate = projetoPai[0].startDate
             tarefa.endDate = projetoPai[0].endDate
-            tarefa.userId = request.body.activity.user._id
+            tarefa.user = request.body.activity.user._id
             await tarefa.save()
             response.send({success: true})
         }catch(err){
@@ -269,7 +269,7 @@ import {Status} from './models/Status'
     const taskRequest = input.activity._id
     try{   
         let usuario:any = await User.find({email: loginEmail}).exec() 
-        let tasks:any = await Tarefa.find({_id: taskRequest, userId: usuario[0]._id}).exec()
+        let tasks:any = await Tarefa.find({_id: taskRequest, user: usuario[0]._id}).exec()
         if(tasks.length > 0){
             let project = await Projeto.find({_id: tasks[0].projetoId})
             let status = await Status.find({_id: tasks[0].statusId})
@@ -293,7 +293,7 @@ import {Status} from './models/Status'
     const loginEmail = input.loginStatus.email  
     try{   
         let usuario:any = await User.find({email: loginEmail}).exec() 
-        let tasks:any = await Tarefa.find({userId: usuario[0]._id}).populate('statusId').exec()
+        let tasks:any = await Tarefa.find({user: usuario[0]._id}).populate('status').populate('projeto').populate('user').exec()
         if(tasks.length > 0){
             response.send({success: true, tasks})
         }else{
@@ -334,9 +334,9 @@ import {Status} from './models/Status'
     const loginEmail = input.loginStatus.email  
     try{   
         let usuario:any = await User.find({email: loginEmail}).exec() 
-        let tasks:any = await Tarefa.find({userId: usuario[0]._id}).exec()
+        let tasks:any = await Tarefa.find({user: usuario[0]._id}).exec()
         let projects:any = await Projeto.find().exec()
-        let alerts:any = await Alerta.find({userId: usuario[0]._id}).exec()
+        let alerts:any = await Alerta.find({user: usuario[0]._id}).exec()
         let bars: { name: string, value: number }[] = [
             { "name": "Tarefas", "value":  tasks.length},
             { "name": "Projetos", "value":  projects.length},

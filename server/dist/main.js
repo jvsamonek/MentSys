@@ -173,7 +173,7 @@ app.get('/alertasUsuario', async (request, response) => {
     const input = JSON.parse(request.query.json || '');
     const frontEmail = input.loginStatus.email;
     const UserID = await User_1.User.find({ email: frontEmail }).exec();
-    const alertas = await Alerta_1.Alerta.find({ userId: UserID[0]._id }).exec();
+    const alertas = await Alerta_1.Alerta.find({ user: UserID[0]._id }).exec();
     //processar
     try {
         if (alertas.length == 0)
@@ -220,13 +220,13 @@ app.post('/criarTarefa', async (request, response) => {
     console.log('aaaa');
     try {
         let tarefa = new Tarefa_1.Tarefa();
-        tarefa.statusId = request.body.activity.statusId;
+        tarefa.status = request.body.activity.statusId;
         tarefa.title = request.body.activity.title;
         let projetoPai = await Projeto_1.Projeto.find({ _id: request.body.activity.task._id }).exec();
-        tarefa.projetoId = projetoPai[0]._id;
+        tarefa.projeto = projetoPai[0]._id;
         tarefa.startDate = projetoPai[0].startDate;
         tarefa.endDate = projetoPai[0].endDate;
-        tarefa.userId = request.body.activity.user._id;
+        tarefa.user = request.body.activity.user._id;
         await tarefa.save();
         response.send({ success: true });
     }
@@ -244,7 +244,7 @@ app.get('/tarefaEspecifica', async (request, response) => {
     const taskRequest = input.activity._id;
     try {
         let usuario = await User_1.User.find({ email: loginEmail }).exec();
-        let tasks = await Tarefa_1.Tarefa.find({ _id: taskRequest, userId: usuario[0]._id }).exec();
+        let tasks = await Tarefa_1.Tarefa.find({ _id: taskRequest, user: usuario[0]._id }).exec();
         if (tasks.length > 0) {
             let project = await Projeto_1.Projeto.find({ _id: tasks[0].projetoId });
             let status = await Status_1.Status.find({ _id: tasks[0].statusId });
@@ -267,7 +267,7 @@ app.get('/tarefasUsuario', async (request, response) => {
     const loginEmail = input.loginStatus.email;
     try {
         let usuario = await User_1.User.find({ email: loginEmail }).exec();
-        let tasks = await Tarefa_1.Tarefa.find({ userId: usuario[0]._id }).populate('statusId').exec();
+        let tasks = await Tarefa_1.Tarefa.find({ user: usuario[0]._id }).populate('status').populate('projeto').populate('user').exec();
         if (tasks.length > 0) {
             response.send({ success: true, tasks });
         }
@@ -300,9 +300,9 @@ app.get('/barras', async (request, response) => {
     const loginEmail = input.loginStatus.email;
     try {
         let usuario = await User_1.User.find({ email: loginEmail }).exec();
-        let tasks = await Tarefa_1.Tarefa.find({ userId: usuario[0]._id }).exec();
+        let tasks = await Tarefa_1.Tarefa.find({ user: usuario[0]._id }).exec();
         let projects = await Projeto_1.Projeto.find().exec();
-        let alerts = await Alerta_1.Alerta.find({ userId: usuario[0]._id }).exec();
+        let alerts = await Alerta_1.Alerta.find({ user: usuario[0]._id }).exec();
         let bars = [
             { "name": "Tarefas", "value": tasks.length },
             { "name": "Projetos", "value": projects.length },
