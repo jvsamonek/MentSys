@@ -1,7 +1,7 @@
 
 export function getLoginStatus(){
     try{
-        return JSON.parse(localStorage.getItem('loginStatus'))
+        return JSON.parse(localStorage.getItem('loginStatus')) || {}
     }
     catch(error){
         return {}
@@ -14,5 +14,4 @@ export function setLoginStatus(data){
     }
     catch(error){
     }
-
 }

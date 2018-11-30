@@ -26,11 +26,9 @@ const Status_1 = require("./models/Status");
 //expected {success: true | false}
 //Fazer logoff
 app.post('/logoff', async (request, response) => {
-    const loginStatus = request.body.loginStatus; //loginStatus == {name: 'Guilherme', email: 'email@', senha: '123'}
-    //pegar dados do mongo
     try {
+        const loginStatus = request.body.loginStatus; //loginStatus == {name: 'Guilherme', email: 'email@', senha: '123'}
         let usuario = await User_1.User.find({ email: loginStatus.email }).exec();
-        //processar
         if (usuario.length > 0 && usuario[0].logged) {
             usuario[0].logged = false;
             await usuario[0].save();
@@ -56,8 +54,8 @@ app.post('/login', async (request, response) => {
         if (usuario.length > 0 && !usuario[0].logged) {
             usuario[0].logged = true;
             await usuario[0].save();
-            let Usuario = { name: loginStatus.name, email: loginStatus.email };
-            response.send({ success: true, Usuario });
+            const user = { name: usuario[0].name, email: usuario[0].email, _id: usuario[0]._id };
+            response.send({ success: true, user });
         }
         else {
             throw new Error('Erro 1');
@@ -305,5 +303,5 @@ app.listen(4242, () => {
     console.log('Rodando na port 4242');
 });
 !async function main() {
-    console.log(await Tarefa_1.Tarefa.find());
+    console.log(await User_1.User.find());
 }();

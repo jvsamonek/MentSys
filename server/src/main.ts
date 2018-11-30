@@ -23,26 +23,24 @@ import {Status} from './models/Status'
 
 ////---------------------------------log functions
 
-        //POST REQUEST {loginStatus}
-        //expected {success: true | false}
-        //Fazer logoff
-    app.post('/logoff', async (request, response) => {
+//POST REQUEST {loginStatus}
+//expected {success: true | false}
+//Fazer logoff
+app.post('/logoff', async (request, response) => {
+    try{
         const loginStatus = request.body.loginStatus //loginStatus == {name: 'Guilherme', email: 'email@', senha: '123'}
-            //pegar dados do mongo
-            try{
-            let usuario:any = await User.find({email: loginStatus.email}).exec()
-            //processar
-            if(usuario.length > 0 && usuario[0].logged){
-                usuario[0].logged = false;
-                await usuario[0].save()
-                response.send({success: true})
-            }else{
-                throw new Error('Erro 1')
-            }
-            }catch(err){
-            response.send({success: false})
-            }          
-        })
+        let usuario:any = await User.find({email: loginStatus.email}).exec()
+        if(usuario.length > 0 && usuario[0].logged){
+            usuario[0].logged = false;
+            await usuario[0].save()
+            response.send({success: true})
+        }else{
+            throw new Error('Erro 1')
+        }
+    }catch(err){
+        response.send({success: false})
+    }          
+})
         
         //POST REQUEST {loginStatus}
         //expected {success: true | false, user: {name, email}}
@@ -56,8 +54,8 @@ import {Status} from './models/Status'
         if(usuario.length > 0 && !usuario[0].logged){
             usuario[0].logged = true;
             await usuario[0].save()
-            let Usuario = {name: loginStatus.name, email: loginStatus.email}
-            response.send({success: true, Usuario})
+            const user = {name: usuario[0].name, email: usuario[0].email, _id: usuario[0]._id}
+            response.send({success: true, user})
         }else{
             throw new Error('Erro 1')
         }
@@ -342,5 +340,5 @@ app.get('/tarefaEspecifica', async (request, response) => {
     });
 
     !async function main(){
-        console.log(await Tarefa.find())
+        console.log(await User.find())
     }()

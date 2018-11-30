@@ -131,7 +131,7 @@ class SimpleDialogDemo extends React.Component {
   render() {
     const loginStatus = getLoginStatus()
     let content
-    if(loginStatus)
+    if(loginStatus._id)
         content = <Button onClick={this.logout}>{loginStatus.name} - DESCONECTAR</Button>
     else
         content = <Button onClick={this.handleClickOpen}>Login</Button>
@@ -152,13 +152,11 @@ class SimpleDialogDemo extends React.Component {
     //expected {success: true | false}
     const loginStatus = getLoginStatus()
     
-    const data = await Req.post('/logoff', loginStatus)
-    
+    const data = await Req.post('/logoff', {loginStatus})
     if(data.success){
       alert("Você foi desconectado.")
       
-      console.log()
-      setLoginStatus(data.user)
+      setLoginStatus(null)
       // eslint-disable-next-line no-restricted-globals
       location.reload()
     }

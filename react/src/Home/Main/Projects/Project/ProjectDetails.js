@@ -179,9 +179,7 @@ class ProjectDetailsEdit extends Component {
         //expected {success: true | false}
         const loginStatus = getLoginStatus()
         const project = this.state.row
-        debugger
         const data = await Req.post("/salvarProjeto", {loginStatus, project})
-        debugger
         if(data.success){
             alert('Projeto salvo com sucesso.')
             this.state.setMode(TaskMode.SHOW)
@@ -238,7 +236,6 @@ class ProjectDetailsShow extends Component {
 
     }
     render(){
-        debugger
         return (
             <div className="main-diff">
                 <ActionBar back={() => this.state.back()}/>

@@ -10,6 +10,7 @@ import { AlertManager } from './Alerts/AlertManager';
 import { UserStatus } from './Status/UserStatus';
 import { ActionBar } from './ActionBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { getLoginStatus } from '../../Components/LoginStatus';
 
 export const MenuCode = {
     NEWS: 1,
@@ -22,14 +23,19 @@ export const MenuCode = {
     
     ALERT_LIST: 6,
 
-    STATUS: 8
+    STATUS: 8,
+
+    WAITING_LOGIN:9
 }
 
 export class Main extends Component {
     constructor(){
         super()
+        
+        const loginStatus = getLoginStatus()
+        const menuCode = loginStatus._id ? MenuCode.NEWS : MenuCode.WAITING_LOGIN
         this.state = {
-            menuCode: MenuCode.NEWS
+            menuCode
         }
     }
     render(){
@@ -60,6 +66,8 @@ export class Main extends Component {
                 return <AlertManager/>
             case MenuCode.STATUS:
                 return <UserStatus/>
+            case MenuCode.WAITING_LOGIN:
+                return <MainMessage message="Você precisa se conectar para usar o sistema!"/>
             default: 
                 return <div>Error</div>
         }

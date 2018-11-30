@@ -5,6 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { MenuCode } from '../Main/Main';
+import { getLoginStatus } from '../../Components/LoginStatus';
 
 export class SideMenu extends Component{
     constructor({home}){
@@ -16,10 +17,15 @@ export class SideMenu extends Component{
             {nome: 'Alertas', menuCode: MenuCode.ALERT_LIST},
             {nome: 'Status', menuCode: MenuCode.STATUS},
         ]
+        const loginRequiredOption = [{nome: 'Home', menuCode: MenuCode.WAITING_LOGIN}]
+        
+        const loginStatus = getLoginStatus()
+        let currentOptions = loginStatus._id ? optionsData : [loginRequiredOption]
+
         this.state = {
             optionsData,
             home,
-            options: optionsData
+            options: currentOptions
                 .map(o => 
                     <MenuOption 
                         selectOption={() => this.selectOption(o.menuCode)} 
