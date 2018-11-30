@@ -242,18 +242,21 @@ app.post('/deletarTarefa', async (request, response) => {
         response.send({ success: false });
 });
 app.post('/salvarTarefa', async (request, response) => {
-    const frontId = request.body.activity._id;
     try {
-        let tarefas = await Tarefa_1.Tarefa.find({ _id: frontId }).exec();
-        if (tarefas.length == 0)
+        const frontId = request.body.task._id;
+        const tarefa = (await Tarefa_1.Tarefa.find({ _id: frontId }).exec())[0];
+        if (!tarefa)
             throw new Error('Não existe essa tarefa');
-        tarefas[0].status = request.body.activity.status;
-        tarefas[0].title = request.body.activity.title;
-        tarefas[0].startDate = request.body.activity.task.startDate;
-        tarefas[0].endDate = request.body.activity.task.endDate;
-        tarefas[0].imagePath = request.body.activity.task.imagePath;
-        await tarefas[0].save();
-        response.send({ success: true });
+        const newTask = request.body.task;
+        Object.assign(tarefa, request.body.task);
+        if (newTask.status._id)
+            tarefa.status = await Status_1.Status.findById(mongoose_1.default.Types.ObjectId(newTask.status._id)).exec();
+        if (newTask.project._id)
+            tarefa.project = await Projeto_1.Projeto.findById(mongoose_1.default.Types.ObjectId(newTask.project._id)).exec();
+        if (newTask.user._id)
+            tarefa.user = await User_1.User.findById(mongoose_1.default.Types.ObjectId(newTask.user._id)).exec();
+        await tarefa.save();
+        response.send({ success: true, task: tarefa.populate('project') });
     }
     catch (err) {
         console.log(err);
@@ -352,5 +355,7 @@ app.listen(4242, () => {
     console.log('Rodando na port 4242');
 });
 !async function main() {
-    console.log(await Projeto_1.Projeto.find());
+    console.log(await Tarefa_1.Tarefa.find());
+    console.log(await User_1.User.find());
+    console.log(await Status_1.Status.find());
 }();

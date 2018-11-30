@@ -263,18 +263,21 @@ app.post('/salvarUsuario', async (request, response)=> {
     
 
     app.post('/salvarTarefa', async (request, response)=> {
-        const frontId = request.body.activity._id 
         try{
-            let tarefas:any = await Tarefa.find({_id: frontId}).exec()
-            if(tarefas.length == 0)
+            const frontId = request.body.task._id 
+            const tarefa: any = (await Tarefa.find({_id: frontId}).exec())[0]
+            if(!tarefa)
                 throw new Error('Não existe essa tarefa')
-            tarefas[0].status = request.body.activity.status
-            tarefas[0].title = request.body.activity.title
-            tarefas[0].startDate = request.body.activity.task.startDate
-            tarefas[0].endDate = request.body.activity.task.endDate
-            tarefas[0].imagePath = request.body.activity.task.imagePath
-            await tarefas[0].save()
-            response.send({success: true})
+            const newTask = request.body.task
+            Object.assign(tarefa, request.body.task)
+            if(newTask.status._id)
+                tarefa.status = await Status.findById(mongoose.Types.ObjectId(newTask.status._id)).exec()
+            if(newTask.project._id)
+                tarefa.project = await Projeto.findById(mongoose.Types.ObjectId(newTask.project._id)).exec()
+            if(newTask.user._id)
+                tarefa.user = await User.findById(mongoose.Types.ObjectId(newTask.user._id)).exec()
+            await tarefa.save()            
+            response.send({success: true, task: tarefa.populate('project')})
         }catch(err){
             console.log(err)
             response.send({success: false})
@@ -386,5 +389,7 @@ app.get('/tarefaEspecifica', async (request, response) => {
     });
 
     !async function main(){
-        console.log(await Projeto.find())
+        console.log(await Tarefa.find())
+        console.log(await User.find())
+        console.log(await Status.find())
     }()

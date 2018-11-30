@@ -26,14 +26,15 @@ const styles = theme => ({
 });
 
 class SimpleSelect extends React.Component {
-  constructor({title, value, options}){
+  constructor({title, value, options, setValue}){
     super()
     this.state = {
       title,
       age: value,
       name: 'hai',
       labelWidth: 0,
-      options
+      options,
+      setValue
     }
   }
 
@@ -44,8 +45,9 @@ class SimpleSelect extends React.Component {
   }
 
   handleChange = event => {
+    this.state.setValue(event)
     this.setState({ [event.target.name]: event.target.value });
-  };
+  }
 
   render() {
     const { classes } = this.props;

@@ -42,8 +42,8 @@ export class TaskDetails extends Component {
     render(){
         if(this.state.loading)
             return <MainWaiting/>
-        this.status = <Select className="left" title='Status' value={this.state.row.status._id} options={this.state.status}/>
-        this.user = <Select className="left" title='Responsavel' value={this.state.row.user._id} options={this.state.users}/>
+        this.status = <Select className="left" title='Status' value={this.state.row.status._id} options={this.state.status} setValue={e => this.state.row.status._id = e.target.value}/>
+        this.user = <Select className="left" title='Responsavel' value={this.state.row.user._id} options={this.state.users} setValue={e => this.state.row.user._id = e.target.value}/>
 
         const s = new Date(this.state.row.startDate)
         const e = new Date(this.state.row.endDate)
@@ -118,14 +118,14 @@ export class TaskDetails extends Component {
         //POST REQUEST {loginStatus, activity: {_id} status: {_id}, task: {_id} startDate, endDate}, user: {_id}}}
         //expected {success: true | false}
 
-        await timeout(500)
-        const data = {
-            success: true
-        }
+        const loginStatus = getLoginStatus()
+        const task = this.state.row
+        const data = await Req.post('/salvarTarefa', {loginStatus, task})
         if(data.success){
-            alert('Atividade salva com sucesso.')
+            this.setState({row: data.task})
+            alert('Tarefa salva com sucesso.')
         }
         else
-            alert('Erro ao salvar atividade!')
+            alert('Erro ao salvar Tarefa!')
     }
 }
