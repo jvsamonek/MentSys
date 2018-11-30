@@ -9,7 +9,7 @@
 			"name": "postman",
 			"item": [
 				{
-					"name": "atividadeEspecifica",
+					"name": "barras",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -18,50 +18,20 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:4242/atividadeEspecifica?json={\"loginStatus\":{\"email\":\"Joao@email.com\"}, \"activity\": {\"_id\":\"5bff5b9b8ac706393082c69b\"}}",
+							"raw": "http://localhost:4242/barras?json={\"loginStatus\":{\"email\":\"Joao@email.com\"}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "4242",
 							"path": [
-								"atividadeEspecifica"
+								"barras"
 							],
 							"query": [
 								{
 									"key": "json",
-									"value": "{\"loginStatus\":{\"email\":\"Joao@email.com\"}, \"activity\": {\"_id\":\"5bff5b9b8ac706393082c69b\"}}"
+									"value": "{\"loginStatus\":{\"email\":\"Joao@email.com\"}}"
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "http://localhost:4242/logoff",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"loginStatus\": {\n\t\t\"email\" : \"Joao@email.com\",\n\t\t\"password\" : \"123\"\n\t}\n}"
-						},
-						"url": {
-							"raw": "http://localhost:4242/logoff",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4242",
-							"path": [
-								"logoff"
 							]
 						}
 					},
@@ -91,37 +61,7 @@
 					"response": []
 				},
 				{
-					"name": "salvarAtividade",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"loginStatus\": {\n\t\t\"email\" : \"Joao@email.com\",\n\t\t\"password\" : \"123\"\n\t}\n\t\"activity\": {\n\t\t\"_id\" : \"Joao@email.com\",\n\t\t\"status\": {\n\t\t\t\"_id\" : \"Joao@email.com\",\n\t\t}\n\t\t\"task\": {\n\t\t\t\"_id\" : \"Joao@email.com\",\n\t\t\t\"startDate\" : \"Joao@email.com\",\n\t\t\t\"endDate\" : \"Joao@email.com\",\n\t\t}\n\t\t\"status\": {\n\t\t\t\"_id\" : \"Joao@email.com\",\n\t\t}\n\t}\n}"
-						},
-						"url": {
-							"raw": "http://localhost:4242/salvarAtividade",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4242",
-							"path": [
-								"salvarAtividade"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "atividadesUsuario",
+					"name": "todosProjetos",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -130,14 +70,112 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:4242/atividadesUsuario?json={\"loginStatus\":{\"email\":\"Flavia@email.com\"}}",
+							"raw": "http://localhost:4242/todosProjetos",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "4242",
 							"path": [
-								"atividadesUsuario"
+								"todosProjetos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "todasTarefas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:4242/todasTarefas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4242",
+							"path": [
+								"todasTarefas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "todosStatus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:4242/todosStatus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4242",
+							"path": [
+								"todosStatus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tarefaEspecifica",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:4242/tarefaEspecifica?json={\"loginStatus\":{\"email\":\"Joao@email.com\"}, \"activity\": {\"_id\":\"5c00b465b6547b145c1ac0ac\"}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4242",
+							"path": [
+								"tarefaEspecifica"
+							],
+							"query": [
+								{
+									"key": "json",
+									"value": "{\"loginStatus\":{\"email\":\"Joao@email.com\"}, \"activity\": {\"_id\":\"5c00b465b6547b145c1ac0ac\"}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "infoUsuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:4242/infoUsuario?json={\"loginStatus\":{\"email\":\"Flavia@email.com\"}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4242",
+							"path": [
+								"infoUsuario"
 							],
 							"query": [
 								{
@@ -179,7 +217,7 @@
 					"response": []
 				},
 				{
-					"name": "infoUsuario",
+					"name": "tarefasUsuario",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -188,20 +226,139 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:4242/infoUsuario?json={\"loginStatus\":{\"email\":\"Flavia@email.com\"}}",
+							"raw": "http://localhost:4242/tarefasUsuario?json={\"loginStatus\":{\"email\":\"Flavia@email.com\"}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "4242",
 							"path": [
-								"infoUsuario"
+								"tarefasUsuario"
 							],
 							"query": [
 								{
 									"key": "json",
 									"value": "{\"loginStatus\":{\"email\":\"Flavia@email.com\"}}"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "especificoProjeto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:4242/especificoProjeto?json={\"loginStatus\":{\"email\":\"Joao@email.com\"}, \"task\": {\"_id\":\"5c00b464b6547b145c1ac0a7\"}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4242",
+							"path": [
+								"especificoProjeto"
+							],
+							"query": [
+								{
+									"key": "json",
+									"value": "{\"loginStatus\":{\"email\":\"Joao@email.com\"}, \"task\": {\"_id\":\"5c00b464b6547b145c1ac0a7\"}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logoff",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"loginStatus\": {\n\t\t\"email\" : \"Joao@email.com\",\n\t\t\"password\" : \"123\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:4242/logoff",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4242",
+							"path": [
+								"logoff"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criarTarefa",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"loginStatus\": {\n\t\t\"email\" : \"Joao@email.com\",\n\t\t\"password\" : \"123\"\n\t},\n\t\"activity\": {\n\t\t\"title\": \"Tarefa criada 2\",\n\t\t\"status\": {\n\t\t\t\"_id\" : \"5c00a81a3d986d1b6490bb4b\"\n\t\t},\n\t\t\"task\": {\n\t\t\t\"_id\" : \"5c00a81a3d986d1b6490bb49\"\n\t\t},\n\t\t\"user\": {\n\t\t\t\"_id\" : \"5c00b463b6547b145c1ac0a5\"\n\t\t}\n\t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:4242/criarTarefa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4242",
+							"path": [
+								"criarTarefa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "salvarTarefa",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"loginStatus\": {\n\t\t\"email\" : \"Joao@email.com\",\n\t\t\"password\" : \"123\"\n\t},\n\t\"activity\": {\n\t\t\"_id\": \"5c00a935e6e01422c88e6b1e\",\n\t\t\"title\": \"Tarefa modificada\",\n\t\t\"status\": {\n\t\t\t\"_id\" : \"5c00a81a3d986d1b6490bb4b\"\n\t\t},\n\t\t\"task\": {\n\t\t\t\"_id\" : \"5c00a81a3d986d1b6490bb49\"\n\t\t},\n\t\t\"user\": {\n\t\t\t\"_id\" : \"5c00a8183d986d1b6490bb47\"\n\t\t}\n\t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:4242/salvarTarefa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4242",
+							"path": [
+								"salvarTarefa"
 							]
 						}
 					},
@@ -232,65 +389,6 @@
 							"port": "4242",
 							"path": [
 								"salvarUsuario"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "especificoProjeto",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:4242/especificoProjeto?json={\"loginStatus\":{\"email\":\"Joao@email.com\"}, \"task\": {\"_id\":\"5bff65ff0866501d98492d0f\"}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4242",
-							"path": [
-								"especificoProjeto"
-							],
-							"query": [
-								{
-									"key": "json",
-									"value": "{\"loginStatus\":{\"email\":\"Joao@email.com\"}, \"task\": {\"_id\":\"5bff65ff0866501d98492d0f\"}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "salvarProjeto",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"loginStatus\": {\n\t\t\"email\" : \"Joao@email.com\",\n\t\t\"password\" : \"123\"\n\t},\n\t\"task\": {\n\t\t\"title\" : \"Novo Software 2\",\n\t\t\"description\" : \"Descricao Modificada\",\n\t\t\"imagePath\" : \"p2.png\"\n\t\t\n\t}\n}"
-						},
-						"url": {
-							"raw": "http://localhost:4242/salvarProjeto",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4242",
-							"path": [
-								"salvarProjeto"
 							]
 						}
 					},
