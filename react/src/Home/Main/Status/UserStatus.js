@@ -113,11 +113,9 @@ export class UserStatus extends Component {
 
         const loginStatus = getLoginStatus()
         let usuarioFront = this.state.row
-        debugger
-        const data = await Req.post('/salvarUsuario', loginStatus, usuarioFront)
-        debugger
+        const data = await Req.post('/salvarUsuario', {loginStatus, usuarioFront})
         if(data.success)
-            alert('Informções salvas com sucesso.')
+            alert('Informações salvas com sucesso.')
         else
             alert('Erro ao salvar informações!')
     }
