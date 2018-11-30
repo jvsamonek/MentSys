@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 var ProjetoSchema = new mongoose.Schema({
   title: String,
   description: String,
-  startDate: Date,
-  endDate: Date,
+  startDate: {type: Date, default: Date.now},
+  endDate: {type: Date, default: Date.now},
   imagePath: String,
 });
 
