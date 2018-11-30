@@ -5,7 +5,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import TextField from '@material-ui/core/TextField';
-import { timeout } from '../../Home';
 import { MainWaiting, MainMessage } from '../Main';
 import { getLoginStatus } from '../../../Components/LoginStatus';
 import { Req } from '../../../Components/Request';
@@ -13,45 +12,22 @@ import { Req } from '../../../Components/Request';
 export class AlertManager extends Component {
     constructor(){
         super()
-        this.fetchDta()
         this.state = {
             loading: true,
             row: []
-        }        
+        }
+        this.fetchDta()
     }
     async fetchDta(){
-        
-        //GET REQUEST {loginStatus}
-        //expected {alerts: [{reason, task: {_id, name}, status: {name},...]}
 
         const loginStatus = getLoginStatus()
-        debugger
         const data = await Req.get('/alertasUsuario', {loginStatus})
-        debugger
-        
-        /*await timeout(500)
-        const data = {
-            loading: false,
-            row: 
-                [...Array(0 | (5 + Math.random() * 10)).keys()]
-                    .map(n => ({
-                        reason: 'Passou do prazo', 
-                        task: {
-                            _id: n, 
-                            name: 'Tarefa ' + n
-                        }, 
-                        status: {
-                            name: 'GRAVE'
-                        }
-                    }))
-        }*/
-        if(data.succes)
+        if(data.success)
             this.setState({row: data.alertas, loading: false})
         else
             this.setState({row: [], loading: false})
     }
     render(){
-        debugger
         if(this.state.loading)
             return <MainWaiting/>
         if(this.state.row.length === 0)
@@ -61,8 +37,8 @@ export class AlertManager extends Component {
                 <ActionBar title={'Central de Alertas'}/>
                 <div className="main-content">
                     <List >
-                        {this.state.row.map(() => (
-                            <Alert/>
+                        {this.state.row.map(r => (
+                            <Alert row={r}/>
                         ))}
                     </List>
                 </div>
@@ -72,14 +48,10 @@ export class AlertManager extends Component {
 }
 
 export class Alert extends Component {
-    constructor({ }){
+    constructor({ row }){
         super()
         this.state = {
-            row: {
-                status: 'GRAVE',
-                task: 'Primeira Tarefa',
-                reason: 'Passou do prazo'
-            }
+            row
         }
     }
     render(){
@@ -103,7 +75,7 @@ export class Alert extends Component {
                         className="task-manager-title left"
                         id="outlined-name"
                         label="Tarefa"
-                        value={this.state.row.task}
+                        value={this.state.row.project.title}
                         margin="normal"
                         variant="outlined"
                         style={{
@@ -112,7 +84,7 @@ export class Alert extends Component {
                         }}
                     />
                     <ListItemIcon className="row-status">
-                        {this.state.row.status}
+                        {this.state.row.status.name}
                     </ListItemIcon>
                 </ListItem>
                 <Divider />
