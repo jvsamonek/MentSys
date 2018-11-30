@@ -7,8 +7,8 @@ const mongoose_1 = __importDefault(require("mongoose"));
 var ProjetoSchema = new mongoose_1.default.Schema({
     title: String,
     description: String,
-    startDate: Date,
-    endDate: Date,
+    startDate: { type: Date, default: Date.now },
+    endDate: { type: Date, default: Date.now },
     imagePath: String,
 });
 exports.Projeto = mongoose_1.default.model('Projeto', ProjetoSchema);

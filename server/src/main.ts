@@ -229,6 +229,7 @@ import {Status} from './models/Status'
         //expected {success: true | false}
         //Salvar informações de uma tarefa
     app.post('/criarTarefa', async (request, response)=> {
+        console.log('aaaa')
         try{
             let tarefa:any = new Tarefa()
             tarefa.statusId = request.body.activity.statusId
