@@ -166,11 +166,14 @@ class ProjectDetailsEdit extends Component {
         }*/
         //POST REQUEST {loginStatus, task: {_id, title, content, imagePath}}
         //expected {success: true | false}
-        
-        await timeout(500)
-        const data = {
-            success: true
+        const projeto = {
+            title: this.state.row.title,
+            imagePath: this.state.row.imagePath,
+            description: this.state.row.content
         }
+        debugger
+        const data = await Req.post("/salvarProjeto", projeto)
+        debugger
         if(data.success){
             alert('Projeto salvo com sucesso.')
             this.state.setMode(TaskMode.SHOW, this.state.row)

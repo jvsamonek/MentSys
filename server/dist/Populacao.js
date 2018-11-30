@@ -44,4 +44,5 @@ function popular(){
     await Al1.save()
     await Al2.save()
     const allAlertas = await Alerta.find().exec()
+    const allUsers = await User.find().exec();
 }()
