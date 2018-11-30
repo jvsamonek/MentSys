@@ -3,7 +3,6 @@ import { ActionBar } from '../../ActionBar';
 import { BottomActionBar } from '../../BottomActionBar';
 import { MenuCode, MainWaiting } from '../../Main';
 import TextField from '@material-ui/core/TextField';
-import { timeout } from '../../../Home';
 import { Req } from '../../../../Components/Request';
 import { getLoginStatus } from '../../../../Components/LoginStatus';
 
@@ -197,31 +196,23 @@ class ProjectDetailsShow extends Component {
             row,
             bottomAction: [
                 {name: 'Editar',action: () => setMode(TaskMode.EDIT)},
-                {name: 'Deletar tarefa', action: () => this.deleteTask()}
+                {name: 'Deletar tarefa', action: () => this.deleteProject()}
             ]
         }
     }
-    async deleteTask(){
+    async deleteProject(){
         // eslint-disable-next-line no-restricted-globals
         const confirmed = confirm('Tem certeza de que quer deletar a tarefa?')
         if(!confirmed)
             return
-
-        //POST REQUEST {loginStatus, task: {_id}}
-        //expected {success: true | false}
-
-        await timeout(500)
-        const data = {
-            success: true
-        }
-
+        const project = this.state.row
+        const data = await Req.post('/deletarProjeto', {project})
         if(data.success){
             alert('Tarefa deletada com sucesso')
             this.state.back()
         }
         else
             alert('Não foi possivel deletar a tarefa!')
-
     }
     render(){
         return (

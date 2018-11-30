@@ -70,16 +70,19 @@ app.post('/login', async (request, response) => {
 //expected {success: true | false}
 //Deletar um Projeto
 app.post('/deletarProjeto', async (request, response) => {
-    const taskId = request.body.task._id;
-    //pegar dados do mongo
-    let task = await Projeto_1.Projeto.find({ _id: taskId }).exec();
-    //processar
-    if (task[0]) {
+    try {
+        const projectId = request.body.project._id;
+        const _id = mongoose_1.default.Types.ObjectId(projectId);
+        let task = await Projeto_1.Projeto.find({ _id }).exec();
+        if (!task[0])
+            throw new Error('Projeto não encontrado');
         task[0].remove();
         response.send({ success: true });
     }
-    else
+    catch (error) {
+        console.log(error);
         response.send({ success: false });
+    }
 });
 //POST REQUEST {loginStatus}
 //expected {succes: true | false, project: {_id, title, description, startDate, endDate, imagePath}}
