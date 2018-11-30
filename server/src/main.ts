@@ -69,24 +69,21 @@ app.post('/logoff', async (request, response) => {
         //POST REQUEST {loginStatus, task: {_id}}
         //expected {success: true | false}
         //Deletar um Projeto
-    app.post('/deletarProjeto', async (request, response)=> {
-        
-    const taskId = request.body.task._id 
-
-    //pegar dados do mongo
-
-    let task:any = await Projeto.find({_id : taskId}).exec()
-
-    //processar
-    if(task[0]){
-        task[0].remove()
-        
+app.post('/deletarProjeto', async (request, response)=> {        
+    try{
+        const projectId = request.body.project._id
+        const _id = mongoose.Types.ObjectId(projectId)
+        let task:any = await Projeto.find({_id}).exec()
+        if(!task[0])
+            throw new Error('Projeto não encontrado')
+        task[0].remove()        
         response.send({success: true})
     }
-    else
+    catch(error){
+        console.log(error)
         response.send({success: false})
-
-    })
+    }
+})
 
 //POST REQUEST {loginStatus}
 //expected {succes: true | false, project: {_id, title, description, startDate, endDate, imagePath}}
