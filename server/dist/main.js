@@ -135,7 +135,7 @@ app.get('/todosProjetos', async (request, response) => {
         response.send({ success: false });
 });
 ////---------------------------------User Functions
-//POST REQUEST {loginStatus, {name, lastName, email, phone}}
+//POST REQUEST {loginStatus, usuarioFront: {name, lastName, email, phone}}
 //expected {success: true | false}
 //Salvar informações do usuario logado
 app.post('/salvarUsuario', async (request, response) => {

@@ -146,7 +146,7 @@ app.post('/salvarProjeto', async (request, response)=> {
 
 ////---------------------------------User Functions
 
-            //POST REQUEST {loginStatus, {name, lastName, email, phone}}
+            //POST REQUEST {loginStatus, usuarioFront: {name, lastName, email, phone}}
             //expected {success: true | false}
             //Salvar informações do usuario logado
 
