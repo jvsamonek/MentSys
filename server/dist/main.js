@@ -112,7 +112,7 @@ app.get('/todosProjetos', async (request, response) => {
         response.send({ success: false });
 });
 ////---------------------------------User Functions
-//POST REQUEST {loginStatus, {name, lastName, email, phone}}
+//POST REQUEST {loginStatus, usuarioFront: {name, lastName, email, phone}}
 //expected {success: true | false}
 //Salvar informações do usuario logado
 app.post('/salvarUsuario', async (request, response) => {
@@ -121,15 +121,14 @@ app.post('/salvarUsuario', async (request, response) => {
         let usuario = await User_1.User.find({ email: frontEmail }).exec();
         if (usuario.length == 0)
             throw new Error('Não existe esse user');
-        usuario[0].name = request.body.loginStatus.name;
-        usuario[0].lastName = request.body.loginStatus.lastName;
-        usuario[0].email = request.body.loginStatus.email;
-        usuario[0].phone = request.body.loginStatus.phone;
+        usuario[0].name = request.body.usuarioFront.name;
+        usuario[0].lastName = request.body.usuarioFront.lastName;
+        usuario[0].email = request.body.usuarioFront.email;
+        usuario[0].phone = request.body.usuarioFront.phone;
         await usuario[0].save();
         response.send({ success: true });
     }
     catch (err) {
-        console.log(err);
         response.send({ success: false });
     }
 });

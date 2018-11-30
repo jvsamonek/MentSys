@@ -348,7 +348,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"loginStatus\": {\n\t\t\"email\" : \"Joao@email.com\",\n\t\t\"password\" : \"123\"\n\t},\n\t\"activity\": {\n\t\t\"_id\": \"5c00a935e6e01422c88e6b1e\",\n\t\t\"title\": \"Tarefa modificada\",\n\t\t\"status\": {\n\t\t\t\"_id\" : \"5c00a81a3d986d1b6490bb4b\"\n\t\t},\n\t\t\"task\": {\n\t\t\t\"_id\" : \"5c00a81a3d986d1b6490bb49\"\n\t\t},\n\t\t\"user\": {\n\t\t\t\"_id\" : \"5c00a8183d986d1b6490bb47\"\n\t\t}\n\t}\n}"
+							"raw": "{\n\t\"loginStatus\": {\n\t\t\"email\" : \"Joao@email.com\",\n\t\t\"password\" : \"123\"\n\t},\n\t\"activity\": {\n\t\t\"_id\": \"5c00b465b6547b145c1ac0ac\",\n\t\t\"title\": \"Tarefa modificada\",\n\t\t\"status\": {\n\t\t\t\"_id\" : \"5c00a81a3d986d1b6490bb4b\"\n\t\t},\n\t\t\"task\": {\n\t\t\t\"_id\" : \"5c00a81a3d986d1b6490bb49\"\n\t\t},\n\t\t\"user\": {\n\t\t\t\"_id\" : \"5c00a8183d986d1b6490bb47\"\n\t\t}\n\t}\n}"
 						},
 						"url": {
 							"raw": "http://localhost:4242/salvarTarefa",
@@ -378,7 +378,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"loginStatus\": {\n\t\t\"email\" : \"Joao@email.com\",\n\t\t\"password\" : \"123\"\n\t}\n}"
+							"raw": "{\n\t\"loginStatus\": {\n\t\t\"email\" : \"Joao@email.com\",\n\t\t\"password\" : \"123\"\n\t},\n\t\t\"usuarioFront\": {\n\t\t\"name\" : \"Joao\",\n\t\t\"lastName\" : \"Samonek\",\n\t\t\"email\" : \"Joao@email2.com\",\n\t\t\"phone\" : \"33333333\"\n\t}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:4242/salvarUsuario",
