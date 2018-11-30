@@ -39,8 +39,8 @@ function popular(){
     await A2.save()
     const allTarefas = await Tarefa.find().exec();
 
-    const Al1 = new Alerta({reason: 'Prazo', status: allStatus[1]._id, projeto: allProjetos[0]._id, user: allUsers[2]._id})
-    const Al2 = new Alerta({reason: 'Motivo', status: allStatus[1]._id, projeto: allProjetos[1]._id, user: allUsers[2]._id})
+    const Al1 = new Alerta({reason: 'Prazo', status: allStatus[1]._id, task: allTarefas[0]._id, user: allUsers[2]._id})
+    const Al2 = new Alerta({reason: 'Motivo', status: allStatus[1]._id, task: allTarefas[1]._id, user: allUsers[2]._id})
     await Al1.save()
     await Al2.save()
     const allAlertas = await Alerta.find().exec()
