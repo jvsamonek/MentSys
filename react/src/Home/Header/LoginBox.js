@@ -39,8 +39,6 @@ class SimpleDialog extends React.Component {
     this.props.onClose(value);
   };
   makeLogin = async () => {
-    //POST REQUEST {loginStatus}
-    //expected {success: true | false, user: {name, email}}
     const loginStatus = {
       email: this.state.row.email,
       password: this.state.row.password
@@ -148,8 +146,6 @@ class SimpleDialogDemo extends React.Component {
     );
   }
   logout = async () => {
-    //POST REQUEST {loginStatus}
-    //expected {success: true | false}
     const loginStatus = getLoginStatus()
     
     const data = await Req.post('/logoff', {loginStatus})

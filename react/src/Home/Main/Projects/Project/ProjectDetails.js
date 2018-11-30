@@ -24,9 +24,6 @@ export class ProjectDetails extends Component {
         this.fetchData()
     }
     async fetchData(){
-        //GET REQUEST {loginStatus, task: {_id}}
-        //expected {task: {_id, title, content, imagePath}}
-
         const loginStatus = getLoginStatus()
         const task = {_id: this.state.row._id}
         const data = await Req.get('/especificoProjeto', {loginStatus, task})
@@ -71,7 +68,7 @@ class ProjectDetailsEdit extends Component {
             back,
             row,
             bottomAction: [
-                {name: 'Salvar', action: () => this.saveTask()}
+                {name: 'Salvar', action: () => this.saveProject()}
             ]
         }
         this.ref = {
@@ -167,18 +164,10 @@ class ProjectDetailsEdit extends Component {
             </div>
         )
     }
-    async saveTask(){
-
-        /*const form = this.verifyFields()
-
-        if(!form.valid){
-            alert(form.message)
-            return
-        }*/
-        //POST REQUEST {loginStatus, task: {_id, title, content, imagePath}}
-        //expected {success: true | false}
+    async saveProject(){
         const loginStatus = getLoginStatus()
         const project = this.state.row
+        debugger
         const data = await Req.post("/salvarProjeto", {loginStatus, project})
         if(data.success){
             alert('Projeto salvo com sucesso.')

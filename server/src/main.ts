@@ -88,6 +88,29 @@ app.post('/logoff', async (request, response) => {
 
     })
 
+//POST REQUEST {loginStatus}
+//expected {succes: true | false, project: {_id, title, description, startDate, endDate, imagePath}}
+app.post('/salvarProjeto', async (request, response)=> {
+    try{
+        const projectId = request.body.project._id
+        let project: any
+        if(projectId){
+            const _id = mongoose.Types.ObjectId(projectId)
+            project = (await Projeto.find(_id).exec())[0]
+            if(!project)
+                throw new Error('Projeto não encontrado.')
+            Object.assign(project, request.body.project)
+        }
+        else
+            project = new Projeto(request.body.project)
+        await project.save()
+        response.send({success: true, project})
+    }
+    catch(error){
+        console.log(error)
+        response.send({success: false})
+    }
+})
 
             //GET REQUEST {loginStatus, task: {_id}}
             //expected {task: {_id, title, content, imagePath}}
@@ -127,7 +150,7 @@ app.post('/logoff', async (request, response) => {
             //expected {success: true | false}
             //Salvar informações do usuario logado
 
-    app.post('/salvarUsuario', async (request, response)=> {
+app.post('/salvarUsuario', async (request, response)=> {
     const frontEmail = request.body.loginStatus.email 
     try{
         let usuario:any = await User.find({email: frontEmail}).exec()
@@ -358,5 +381,5 @@ app.get('/tarefaEspecifica', async (request, response) => {
     });
 
     !async function main(){
-        console.log(await User.find())
+        console.log(await Projeto.find())
     }()
