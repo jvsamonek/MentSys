@@ -4,6 +4,8 @@ import TextField from '@material-ui/core/TextField';
 import { BottomActionBar } from '../BottomActionBar';
 import { timeout } from '../../Home';
 import { MainWaiting } from '../Main';
+import { getLoginStatus } from '../../../Components/LoginStatus';
+import { Req } from '../../../Components/Request';
 
 export class UserStatus extends Component {
     constructor({ row }){
@@ -17,22 +19,16 @@ export class UserStatus extends Component {
         }
     }
     async fetchData(){
-        //GET REQUEST {loginStatus}
-        //expected {name, lastName, email, phone}
+        const loginStatus = getLoginStatus()
+        const data = await Req.get('/infoUsuario', {loginStatus})
 
-        await timeout(500)
-        const data = {
-            row: {
-                name:'Guilherme',
-                lastName: 'Rocha',
-                email: 'email@email.com',
-                phone: '41 99002222'
-            }
-        }
-        this.setState(data)
+        if(data.success)
+            this.setState({ row: data.resp, loading: false})
+        else
+            this.setState({ row: {}, loading: false})
     }
     render(){
-        if(!this.state.row.name || !this.state.row.lastName || !this.state.row.email || !this.state.row.phone)
+        if(this.state.loading)
             return <MainWaiting/>
         return (            
             <div className="main-diff">
