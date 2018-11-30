@@ -6,7 +6,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import TextField from '@material-ui/core/TextField';
 import { timeout } from '../../Home';
-import { MainWaiting } from '../Main';
+import { MainWaiting, MainMessage } from '../Main';
+import { getLoginStatus } from '../../../Components/LoginStatus';
+import { Req } from '../../../Components/Request';
 
 export class AlertManager extends Component {
     constructor(){
@@ -18,10 +20,16 @@ export class AlertManager extends Component {
         }        
     }
     async fetchDta(){
+        
         //GET REQUEST {loginStatus}
         //expected {alerts: [{reason, task: {_id, name}, status: {name},...]}
+
+        const loginStatus = getLoginStatus()
+        debugger
+        const data = await Req.get('/alertasUsuario', {loginStatus})
+        debugger
         
-        await timeout(500)
+        /*await timeout(500)
         const data = {
             loading: false,
             row: 
@@ -36,14 +44,18 @@ export class AlertManager extends Component {
                             name: 'GRAVE'
                         }
                     }))
-        }
-        this.setState(data)
+        }*/
+        if(data.succes)
+            this.setState({row: data.alertas, loading: false})
+        else
+            this.setState({row: [], loading: false})
     }
     render(){
+        debugger
         if(this.state.loading)
-            return <MainWaiting></MainWaiting>
+            return <MainWaiting/>
         if(this.state.row.length === 0)
-            return <MainWaiting message="Não existem alertas no momento." loading={false}></MainWaiting>
+            return <MainMessage message="Não existem alertas no momento."/>
         return (
             <div className="main-diff">
                 <ActionBar title={'Central de Alertas'}/>

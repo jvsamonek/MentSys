@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { ActionBar } from '../ActionBar'
 import { Card } from './Cards/Card'
-import { MenuCode, MainWaiting } from '../Main';
+import { MenuCode, MainWaiting, MainMessage } from '../Main';
 import { TaskMode } from './Project/ProjectDetails';
-import { timeout } from '../../Home';
+import { getLoginStatus } from '../../../Components/LoginStatus';
+import { Req } from '../../../Components/Request';
 
 export class ProjectCards extends Component {
     constructor({main}){
@@ -19,27 +20,21 @@ export class ProjectCards extends Component {
         }
     }
     async fecthData(){
-        //GET REQUEST {loginStatus}
-        //expected [{task: {_id, title, content}}, ...]
-        
-        await timeout(500)
-        const data = {
-            loading: false,
-            row: [...Array(20).keys()]
-                .map(n => ({
-                    _id: n,
-                    title: 'Tarefa ' + n,
-                    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie lacus magna, vitae mattis augue suscipit ut. Curabitur non orci nec quam laoreet porta nec in magna. Etiam fringilla lectus id quam rutrum auctor. Aliquam quis pharetra risus, id condimentum leo. Nunc mattis, nulla ac gravida rhoncus, odio elit laoreet dui, at malesuada elit purus ut massa. Integer venenatis tellus ante, a faucibus eros accumsan ut. Nulla tempus ultricies consequat.'
-                }))
-        }
 
-        this.setState(data)
+        const loginStatus = getLoginStatus()
+        const data = await Req.get('/todosProjetos', {loginStatus})
+
+        if(data.success)
+            this.setState({row: data.allProjetos, loading: false})
+        else
+            this.setState({row: [], loading: false})
+        
     }
     render(){
         if(this.state.loading)
             return <MainWaiting></MainWaiting>
         if(this.state.row.length === 0)
-            return <MainWaiting message="Não existem tarefas no momento." loading={false} ></MainWaiting>
+            return <MainMessage message="Não existem tarefas no momento."/>
         return (
             <div className="main-diff">
                 <ActionBar title={'Projetos Ativos'} actions={this.state.actions}/>
