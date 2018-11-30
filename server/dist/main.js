@@ -191,6 +191,18 @@ app.get('/todasTarefas', async (request, response) => {
     else
         response.send({ success: false });
 });
+app.post('/deletarTarefa', async (request, response) => {
+    const taskId = request.body.task._id;
+    //pegar dados do mongo
+    let task = await Tarefa_1.Tarefa.find({ _id: taskId }).exec();
+    //processar
+    if (task[0]) {
+        task[0].remove();
+        response.send({ success: true });
+    }
+    else
+        response.send({ success: false });
+});
 app.post('/salvarTarefa', async (request, response) => {
     const frontId = request.body.activity._id;
     try {

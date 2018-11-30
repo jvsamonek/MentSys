@@ -213,6 +213,25 @@ app.post('/logoff', async (request, response) => {
         response.send({success: false})
 
         })
+
+    app.post('/deletarTarefa', async (request, response)=> {
+        
+    const taskId = request.body.task._id 
+
+
+    //pegar dados do mongo
+
+    let task:any = await Tarefa.find({_id : taskId}).exec()
+
+    //processar
+    if(task[0]){
+        task[0].remove()
+        response.send({success: true})
+    }
+    else
+        response.send({success: false})
+
+    })
     
 
     app.post('/salvarTarefa', async (request, response)=> {
