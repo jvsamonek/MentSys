@@ -223,8 +223,22 @@ app.post('/salvarUsuario', async (request, response)=> {
         console.log(err)
         response.send({success: false})
     }
-
     })
+
+    app.post('/deletarUsuario', async (request, response)=> {
+    const userId = request.body.user._id 
+    //pegar dados do mong
+    let users:any = await User.find({_id : userId}).exec()
+    //processar
+    if(users[0]){
+        users[0].remove()
+        response.send({success: true})
+    }
+    else
+        response.send({success: false})
+    })
+
+    
 
 //---------------------------------Task Functions
     app.get('/todasTarefas', async (request, response) => {
@@ -238,14 +252,9 @@ app.post('/salvarUsuario', async (request, response)=> {
         })
 
     app.post('/deletarTarefa', async (request, response)=> {
-        
     const taskId = request.body.task._id 
-
-
-    //pegar dados do mongo
-
+    //pegar dados do mong
     let task:any = await Tarefa.find({_id : taskId}).exec()
-
     //processar
     if(task[0]){
         task[0].remove()
@@ -253,7 +262,6 @@ app.post('/salvarUsuario', async (request, response)=> {
     }
     else
         response.send({success: false})
-
     })
     
 
