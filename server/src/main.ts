@@ -66,7 +66,7 @@ import {Status} from './models/Status'
         }          
     })
 
-    ////---------------------------------Project functions
+////---------------------------------Project functions
 
         //POST REQUEST {loginStatus, task: {_id}}
         //expected {success: true | false}
@@ -207,47 +207,46 @@ import {Status} from './models/Status'
     })
 
 //---------------------------------Task Functions
-
+    app.post('/salvarTarefa', async (request, response)=> {
+        const frontId = request.body.activity._id 
+        try{
+            let tarefas:any = await User.find({_id: frontId}).exec()
+            if(tarefas.length == 0)
+                throw new Error('Não existe essa tarefa')
+            tarefas[0].statusId = request.body.activity.statusId
+            tarefas[0].title = request.body.activity.title
+            tarefas[0].startDate = request.body.activity.task.startDate
+            tarefas[0].endDate = request.body.activity.task.endDate
+            tarefas[0].imagePath = request.body.activity.task.imagePath
+            await tarefas[0].save()
+            response.send({success: true})
+        }catch(err){
+            console.log(err)
+            response.send({success: false})
+        }    
+    })
             //POST REQUEST {loginStatus, activity: {_id, status: {_id}, task: {_id, startDate, endDate}, user: {_id}}}
         //expected {success: true | false}
         //Salvar informações de uma tarefa
-    app.post('/salvarTarefa', async (request, response)=> {
-    const frontId = request.body.activity._id 
-    try{
-        let tarefas:any = await User.find({_id: frontId}).exec()
-        if(tarefas.length == 0)
-            throw new Error('Não existe essa tarefa')
-        tarefas[0].statusId = request.body.activity.statusId
-        tarefas[0].title = request.body.activity.title
-        tarefas[0].startDate = request.body.activity.task.startDate
-        tarefas[0].endDate = request.body.activity.task.endDate
-        tarefas[0].imagePath = request.body.activity.task.imagePath
-        await tarefas[0].save()
-        response.send({success: true})
+    app.post('/criarTarefa', async (request, response)=> {
+        try{
+            let tarefa:any = new Tarefa()
+            tarefa.statusId = request.body.activity.statusId
+            tarefa.title = request.body.activity.title
+            let projetoPai:any = await Projeto.find({_id: request.body.activity.task._id}).exec()
+            tarefa.projetoId = projetoPai[0]._id
+            tarefa.startDate = projetoPai[0].startDate
+            tarefa.endDate = projetoPai[0].endDate
+            tarefa.userId = request.body.activity.user._id
+            await tarefa.save()
+            response.send({success: true})
         }catch(err){
-        console.log(err)
-        response.send({success: false})
+            console.log(err)
+            response.send({success: false})
         }    
 
     })
 
-
-            //GET REQUEST {loginStatus}
-            //expected [{_id, status: {name}, task: {title}, user: {name}}]
-            //- Lista com todas as tarefa associadas ao usuário logado
-    app.get('tarefasUsuario', async (request, response) => {
-    const input = JSON.parse(request.query.json || '')
-    const loginStatus = input.loginStatus    //task== {id: 321}
-    //pegar dados do mongo
-    try{    
-        let loggedUser = await User.find({  email : loginStatus.email }).exec()
-        let tarefas = await Tarefa.find({ userId: loggedUser[0]._id }).exec()
-        response.send({success: true, tarefas})
-    }catch(err){
-        console.log(err)
-        response.send({success: false})
-    }
-    })
 
             //GET REQUEST {loginSatus, activity: {_id}}
         //expected {activity: {_id, status: {_id}, task: {_id, title, startDate, endDate}, user: {_id}}}
@@ -277,7 +276,6 @@ import {Status} from './models/Status'
                 //GET REQUEST {loginStatus}
             //expected [{_id, status: {name}, task: {title}, user: {name}}]
             //Lista com todas as tarefas associadas ao usuário logado
-
     app.get('/tarefasUsuario', async (request, response) => {
     const input = JSON.parse(request.query.json || '')
     const loginEmail = input.loginStatus.email  
