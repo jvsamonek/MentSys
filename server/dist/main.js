@@ -81,6 +81,29 @@ app.post('/deletarProjeto', async (request, response) => {
     else
         response.send({ success: false });
 });
+//POST REQUEST {loginStatus}
+//expected {succes: true | false, project: {_id, title, description, startDate, endDate, imagePath}}
+app.post('/salvarProjeto', async (request, response) => {
+    try {
+        const projectId = request.body.project._id;
+        let project;
+        if (projectId) {
+            const _id = mongoose_1.default.Types.ObjectId(projectId);
+            project = (await Projeto_1.Projeto.find(_id).exec())[0];
+            if (!project)
+                throw new Error('Projeto não encontrado.');
+            Object.assign(project, request.body.project);
+        }
+        else
+            project = new Projeto_1.Projeto(request.body.project);
+        await project.save();
+        response.send({ success: true, project });
+    }
+    catch (error) {
+        console.log(error);
+        response.send({ success: false });
+    }
+});
 //GET REQUEST {loginStatus, task: {_id}}
 //expected {task: {_id, title, content, imagePath}}
 //Pegar informações de um Projeto especifica
@@ -116,9 +139,9 @@ app.get('/todosProjetos', async (request, response) => {
 //expected {success: true | false}
 //Salvar informações do usuario logado
 app.post('/salvarUsuario', async (request, response) => {
-    const frontEmail = request.body.loginStatus.email;
     try {
-        let usuario = await User_1.User.find({ email: frontEmail }).exec();
+        const frontEmail = request.body.loginStatus.email;
+        const usuario = await User_1.User.find({ email: frontEmail }).exec();
         if (usuario.length == 0)
             throw new Error('Não existe esse user');
         usuario[0].name = request.body.loginStatus.name;
@@ -303,5 +326,5 @@ app.listen(4242, () => {
     console.log('Rodando na port 4242');
 });
 !async function main() {
-    console.log(await User_1.User.find());
+    console.log(await Projeto_1.Projeto.find());
 }();

@@ -88,6 +88,29 @@ app.post('/logoff', async (request, response) => {
 
     })
 
+//POST REQUEST {loginStatus}
+//expected {succes: true | false, project: {_id, title, description, startDate, endDate, imagePath}}
+app.post('/salvarProjeto', async (request, response)=> {
+    try{
+        const projectId = request.body.project._id
+        let project: any
+        if(projectId){
+            const _id = mongoose.Types.ObjectId(projectId)
+            project = (await Projeto.find(_id).exec())[0]
+            if(!project)
+                throw new Error('Projeto não encontrado.')
+            Object.assign(project, request.body.project)
+        }
+        else
+            project = new Projeto(request.body.project)
+        await project.save()
+        response.send({success: true, project})
+    }
+    catch(error){
+        console.log(error)
+        response.send({success: false})
+    }
+})
 
             //GET REQUEST {loginStatus, task: {_id}}
             //expected {task: {_id, title, content, imagePath}}
@@ -128,22 +151,21 @@ app.post('/logoff', async (request, response) => {
             //Salvar informações do usuario logado
 
     app.post('/salvarUsuario', async (request, response)=> {
-    const frontEmail = request.body.loginStatus.email 
-    try{
-        let usuario:any = await User.find({email: frontEmail}).exec()
-        if(usuario.length == 0)
-            throw new Error('Não existe esse user')
-        usuario[0].name = request.body.loginStatus.name
-        usuario[0].lastName = request.body.loginStatus.lastName
-        usuario[0].email = request.body.loginStatus.email
-        usuario[0].phone = request.body.loginStatus.phone
-        await usuario[0].save()
-        response.send({success: true})
+        try{
+            const frontEmail = request.body.loginStatus.email 
+            const usuario:any = await User.find({email: frontEmail}).exec()
+            if(usuario.length == 0)
+                throw new Error('Não existe esse user')
+            usuario[0].name = request.body.loginStatus.name
+            usuario[0].lastName = request.body.loginStatus.lastName
+            usuario[0].email = request.body.loginStatus.email
+            usuario[0].phone = request.body.loginStatus.phone
+            await usuario[0].save()
+            response.send({success: true})
         }catch(err){
-        console.log(err)
-        response.send({success: false})
-        }    
-
+            console.log(err)
+            response.send({success: false})
+        }
     })
 
 
@@ -340,5 +362,5 @@ app.get('/tarefaEspecifica', async (request, response) => {
     });
 
     !async function main(){
-        console.log(await User.find())
+        console.log(await Projeto.find())
     }()
