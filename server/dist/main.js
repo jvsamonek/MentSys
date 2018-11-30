@@ -267,7 +267,7 @@ app.get('/tarefasUsuario', async (request, response) => {
     const loginEmail = input.loginStatus.email;
     try {
         let usuario = await User_1.User.find({ email: loginEmail }).exec();
-        let tasks = await Tarefa_1.Tarefa.find({ userId: usuario[0]._id }).exec();
+        let tasks = await Tarefa_1.Tarefa.find({ userId: usuario[0]._id }).populate('statusId').exec();
         if (tasks.length > 0) {
             response.send({ success: true, tasks });
         }

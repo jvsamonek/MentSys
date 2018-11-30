@@ -21,6 +21,6 @@ function popular(){
 
     const allAlertas = await Alerta.find().exec()
 
-    console.log(allStatus)
+    console.log(allTarefas)
     mongoose.disconnect()
 }()

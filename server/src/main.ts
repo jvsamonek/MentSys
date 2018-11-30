@@ -293,7 +293,7 @@ import {Status} from './models/Status'
     const loginEmail = input.loginStatus.email  
     try{   
         let usuario:any = await User.find({email: loginEmail}).exec() 
-        let tasks:any = await Tarefa.find({userId: usuario[0]._id}).exec()
+        let tasks:any = await Tarefa.find({userId: usuario[0]._id}).populate('statusId').exec()
         if(tasks.length > 0){
             response.send({success: true, tasks})
         }else{
