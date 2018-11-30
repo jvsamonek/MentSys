@@ -173,7 +173,7 @@ app.get('/alertasUsuario', async (request, response) => {
     const input = JSON.parse(request.query.json || '');
     const frontEmail = input.loginStatus.email;
     const UserID = await User_1.User.find({ email: frontEmail }).exec();
-    const alertas = await Alerta_1.Alerta.find({ user: UserID[0]._id }).exec();
+    const alertas = await Alerta_1.Alerta.find({ user: UserID[0]._id }).populate('projeto').populate('status').exec();
     //processar
     try {
         if (alertas.length == 0)
