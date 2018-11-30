@@ -221,7 +221,7 @@ import {Status} from './models/Status'
     app.post('/salvarTarefa', async (request, response)=> {
         const frontId = request.body.activity._id 
         try{
-            let tarefas:any = await User.find({_id: frontId}).exec()
+            let tarefas:any = await Tarefa.find({_id: frontId}).exec()
             if(tarefas.length == 0)
                 throw new Error('Não existe essa tarefa')
             tarefas[0].statusId = request.body.activity.statusId

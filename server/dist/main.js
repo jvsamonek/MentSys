@@ -197,7 +197,7 @@ app.get('/todasTarefas', async (request, response) => {
 app.post('/salvarTarefa', async (request, response) => {
     const frontId = request.body.activity._id;
     try {
-        let tarefas = await User_1.User.find({ _id: frontId }).exec();
+        let tarefas = await Tarefa_1.Tarefa.find({ _id: frontId }).exec();
         if (tarefas.length == 0)
             throw new Error('Não existe essa tarefa');
         tarefas[0].statusId = request.body.activity.statusId;
