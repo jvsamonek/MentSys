@@ -186,6 +186,14 @@ app.get('/alertasUsuario', async (request, response) => {
     }
 });
 //---------------------------------Task Functions
+app.get('/todasTarefas', async (request, response) => {
+    const allTarefas = await Tarefa_1.Tarefa.find().exec();
+    //processar
+    if (allTarefas)
+        response.send({ success: true, allTarefas });
+    else
+        response.send({ success: false });
+});
 app.post('/salvarTarefa', async (request, response) => {
     const frontId = request.body.activity._id;
     try {

@@ -207,6 +207,17 @@ import {Status} from './models/Status'
     })
 
 //---------------------------------Task Functions
+    app.get('/todasTarefas', async (request, response) => {
+    const allTarefas = await Tarefa.find().exec()
+    //processar
+    if(allTarefas)
+        response.send({success: true, allTarefas})
+    else
+        response.send({success: false})
+
+        })
+    
+
     app.post('/salvarTarefa', async (request, response)=> {
         const frontId = request.body.activity._id 
         try{
@@ -309,6 +320,9 @@ import {Status} from './models/Status'
         response.send({success: false})
 
     })
+
+
+    
 
 
         //GET REQUEST {loginStatus}

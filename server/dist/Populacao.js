@@ -33,8 +33,8 @@ function popular(){
     await S3.save()
     const allStatus = await Status.find().exec();
 
-    const A1 = new Tarefa({status_id: allStatus[0]._id, user_id: [allUsers[0]._id, allUsers[1]._id, allUsers[2]._id], projetoId: allProjetos[0]._id})
-    const A2 = new Tarefa({status_id: allStatus[1]._id, user_id: [allUsers[2]._id], projetoId: allProjetos[1]._id})
+    const A1 = new Tarefa({statusId: allStatus[0]._id, userId: [allUsers[0]._id, allUsers[1]._id, allUsers[2]._id], projetoId: allProjetos[0]._id})
+    const A2 = new Tarefa({statusId: allStatus[1]._id, userId: [allUsers[2]._id], projetoId: allProjetos[1]._id})
     await A1.save()
     await A2.save()
     const allTarefas = await Tarefa.find().exec();
